@@ -1,0 +1,74 @@
+{% extends 'base_apoteker.html' %}
+{% load static %} 
+{% load humanize %} 
+
+{% block title %}Edit Obat - {{ obat.nama }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <!-- Header Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0 text-success fw-bold">Edit Detail Obat</h2>
+                <a href="{% url 'apoteker:kelola_obat' %}" class="btn btn-outline-success rounded-pill" title="Kembali ke Daftar Obat">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali
+                </a>
+            </div>
+
+            <!-- Edit Form Card -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-success bg-opacity-10 border-bottom-0">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-pencil-square text-success me-2 fs-5"></i>
+                        <h5 class="mb-0 text-success fw-semibold">Informasi Obat</h5>
+                    </div>
+                </div>
+                <div class="card-body p-4"> 
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <div class="alert alert-success bg-success bg-opacity-10 border-0 rounded-3">
+                                    <p class="mb-0">Mengedit informasi untuk obat: <strong>{{ obat.nama }}</strong></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="nama" class="form-label fw-medium">Nama Obat <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg border-success-subtle rounded-3" id="nama" name="nama" value="{{ obat.nama }}" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="stok" class="form-label fw-medium">Stok Saat Ini <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg border-success-subtle rounded-3" id="stok" name="stok" value="{{ obat.stok }}" min="0" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="harga" class="form-label fw-medium">Harga Jual (Rp) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg border-success-subtle rounded-3" id="harga" name="harga" value="{{ obat.harga }}" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="deskripsi" class="form-label fw-medium">Deskripsi / Catatan (Opsional)</label>
+                            <textarea class="form-control border-success-subtle rounded-3" id="deskripsi" name="deskripsi" rows="3">{{ obat.deskripsi }}</textarea>
+                        </div>
+
+                        <hr class="my-4 text-success-subtle">
+
+                        <div class="d-flex justify-content-end gap-3"> 
+                            <a href="{% url 'apoteker:kelola_obat' %}" class="btn btn-outline-secondary rounded-pill px-4">
+                                Batal
+                            </a>
+                            <button type="submit" class="btn btn-success rounded-pill px-4">
+                                <i class="bi bi-check2-circle me-2"></i> Simpan Perubahan
+                            </button>
+                        </div>
+                    </form>
+                </div> 
+            </div> 
+        </div> 
+    </div> 
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock %}

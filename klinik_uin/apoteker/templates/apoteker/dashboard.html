@@ -1,0 +1,311 @@
+{% extends 'base_apoteker.html' %}
+{% load static %} 
+{% load humanize %} 
+
+{% block title %}Dashboard Apoteker{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Header Section with improved styling -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1 text-primary">Dashboard Apoteker</h2>
+            <p class="text-muted mb-0">Selamat datang, {{ apoteker.nama|default:user.get_full_name|default:user.username }}</p>
+        </div>
+        <div>
+            <a href="{% url 'apoteker:kelola_obat' %}" class="btn btn-primary rounded-pill shadow-sm">
+                <i class="bi bi-capsule-pill me-1"></i> Kelola Obat
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Summary Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 bg-light-warning h-100">
+                <div class="card-body p-3 d-flex align-items-center">
+                    <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+                        <i class="bi bi-hourglass-split fs-4 text-warning"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Menunggu Proses</h6>
+                        <h3 class="mt-1 mb-0 fw-bold">{{ resep_menunggu|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 bg-light-info h-100">
+                <div class="card-body p-3 d-flex align-items-center">
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                        <i class="bi bi-arrow-repeat fs-4 text-info"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Sedang Diproses</h6>
+                        <h3 class="mt-1 mb-0 fw-bold">{{ resep_diproses|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 bg-light-success h-100">
+                <div class="card-body p-3 d-flex align-items-center">
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                        <i class="bi bi-check2-circle fs-4 text-success"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">Selesai Diproses</h6>
+                        <h3 class="mt-1 mb-0 fw-bold">{{ resep_selesai|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs for resep categories -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
+        <div class="card-header bg-white border-bottom-0 pt-3 pb-0">
+            <ul class="nav nav-tabs card-header-tabs" id="resepTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active fw-medium" id="waiting-tab" data-bs-toggle="tab" data-bs-target="#waiting" type="button" role="tab" aria-controls="waiting" aria-selected="true">
+                        <i class="bi bi-hourglass-split me-2 text-warning"></i>Menunggu Proses
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-medium" id="process-tab" data-bs-toggle="tab" data-bs-target="#process" type="button" role="tab" aria-controls="process" aria-selected="false">
+                        <i class="bi bi-arrow-repeat me-2 text-info"></i>Sedang Diproses
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-medium" id="complete-tab" data-bs-toggle="tab" data-bs-target="#complete" type="button" role="tab" aria-controls="complete" aria-selected="false">
+                        <i class="bi bi-check2-circle me-2 text-success"></i>Selesai
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body p-0">
+            <div class="tab-content" id="resepTabsContent">
+                <!-- Menunggu Proses Tab -->
+                <div class="tab-pane fade show active" id="waiting" role="tabpanel" aria-labelledby="waiting-tab">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="py-3 ps-4">Pasien</th>
+                                    <th class="py-3">Dokter</th>
+                                    <th class="py-3">Tanggal Resep</th>
+                                    <th class="py-3 text-end pe-4">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for resep in resep_menunggu %}
+                                    <tr>
+                                        <td class="py-3 ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-circle bg-primary bg-opacity-10 text-primary me-3">
+                                                    {{ resep.pasien.nama|slice:":1" }}
+                                                </div>
+                                                <div>
+                                                    <p class="mb-0 fw-medium">{{ resep.pasien.nama }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-3">Dr. {{ resep.dokter.nama }}</td>
+                                        <td class="py-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-calendar-date me-2 text-muted"></i>
+                                                {{ resep.tanggal_dibuat|date:"d M Y, H:i" }}
+                                            </div>
+                                        </td>
+                                        <td class="text-end py-3 pe-4">
+                                            <a href="{% url 'apoteker:proses_resep' resep.id %}" class="btn btn-primary btn-sm rounded-pill shadow-sm">
+                                                <i class="bi bi-check-lg me-1"></i> Proses
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="text-center py-5">
+                                                <div class="mb-3">
+                                                    <i class="bi bi-inbox fs-1 text-muted opacity-50"></i>
+                                                </div>
+                                                <h6 class="fw-normal text-muted">Tidak ada resep yang menunggu untuk diproses</h6>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Sedang Diproses Tab -->
+                <div class="tab-pane fade" id="process" role="tabpanel" aria-labelledby="process-tab">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="py-3 ps-4">Pasien</th>
+                                    <th class="py-3">Dokter</th>
+                                    <th class="py-3">Tanggal</th>
+                                    <th class="py-3 text-end pe-4">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for resep in resep_diproses %}
+                                    <tr>
+                                        <td class="py-3 ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-circle bg-info bg-opacity-10 text-info me-3">
+                                                    {{ resep.pasien.nama|slice:":1" }}
+                                                </div>
+                                                <div>
+                                                    <p class="mb-0 fw-medium">{{ resep.pasien.nama }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-3">Dr. {{ resep.dokter.nama }}</td>
+                                        <td class="py-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-calendar-date me-2 text-muted"></i>
+                                                {{ resep.tanggal_dibuat|date:"d M Y, H:i" }}
+                                            </div>
+                                        </td>
+                                        <td class="text-end py-3 pe-4">
+                                            <a href="{% url 'apoteker:keluarkan_obat' resep.id %}" class="btn btn-success btn-sm rounded-pill shadow-sm">
+                                                <i class="bi bi-box-arrow-up-right me-1"></i> Keluarkan
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="text-center py-5">
+                                                <div class="mb-3">
+                                                    <i class="bi bi-clipboard-check fs-1 text-muted opacity-50"></i>
+                                                </div>
+                                                <h6 class="fw-normal text-muted">Tidak ada resep yang sedang dalam proses penyiapan</h6>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Selesai Tab -->
+                <div class="tab-pane fade" id="complete" role="tabpanel" aria-labelledby="complete-tab">
+                    <div class="table-responsive">
+                        <table class="table align-middle table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="py-3 ps-4">Pasien</th>
+                                    <th class="py-3">Dokter</th>
+                                    <th class="py-3">Tanggal</th>
+                                    <th class="py-3">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for resep in resep_selesai %}
+                                    <tr>
+                                        <td class="py-3 ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-circle bg-success bg-opacity-10 text-success me-3">
+                                                    {{ resep.pasien.nama|slice:":1" }}
+                                                </div>
+                                                <div>
+                                                    <p class="mb-0 fw-medium">{{ resep.pasien.nama }}</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-3">Dr. {{ resep.dokter.nama }}</td>
+                                        <td class="py-3">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bi bi-calendar-date me-2 text-muted"></i>
+                                                {{ resep.tanggal_dibuat|date:"d M Y, H:i" }}
+                                            </div>
+                                        </td>
+                                        <td class="py-3">
+                                            <span class="badge bg-success rounded-pill">Selesai</span>
+                                        </td>
+                                    </tr>
+                                {% empty %}
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="text-center py-5">
+                                                <div class="mb-3">
+                                                    <i class="bi bi-archive fs-1 text-muted opacity-50"></i>
+                                                </div>
+                                                <h6 class="fw-normal text-muted">Belum ada resep yang selesai diproses atau dikeluarkan</h6>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Custom styles that don't affect backend logic */
+.bg-light-warning {
+    background-color: rgba(255, 193, 7, 0.05);
+}
+.bg-light-info {
+    background-color: rgba(13, 202, 240, 0.05);
+}
+.bg-light-success {
+    background-color: rgba(25, 135, 84, 0.05);
+}
+.avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+.rounded-4 {
+    border-radius: 0.75rem;
+}
+.nav-tabs .nav-link {
+    border: none;
+    padding: 0.75rem 1.25rem;
+    color: #6c757d;
+    position: relative;
+}
+.nav-tabs .nav-link.active {
+    color: #0d6efd;
+    background-color: transparent;
+    border-bottom: 2px solid #0d6efd;
+}
+.nav-tabs .nav-link:hover:not(.active) {
+    border-color: transparent;
+    color: #0d6efd;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    // Initialize Bootstrap tabs
+    document.addEventListener('DOMContentLoaded', function() {
+        var triggerTabList = [].slice.call(document.querySelectorAll('#resepTabs button'))
+        triggerTabList.forEach(function (triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl)
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault()
+                tabTrigger.show()
+            })
+        })
+    });
+</script>
+{% endblock %}

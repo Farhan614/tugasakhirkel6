@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buat Rekam Medis - {{ pasien.nama }}{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-11">
+            <!-- Header with Green Accent -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0 text-success"><i class="bi bi-file-earmark-medical me-2"></i>Buat Rekam Medis Baru</h4>
+                <a href="{% url 'dokter:dashboard_dokter' %}" class="btn btn-sm btn-outline-success">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+                </a>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success bg-opacity-10 py-3 border-bottom border-success border-opacity-25">
+                    <div class="patient-info">
+                        <div class="row align-items-center">
+                            <div class="col-md-1 text-center mb-2 mb-md-0">
+                                <i class="bi bi-person-circle text-success" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="col-md-11">
+                                <h5 class="card-title mb-2">{{ pasien.nama }}</h5>
+                                <p class="card-text mb-0 text-muted"><i class="bi bi-chat-left-text-fill me-2 text-success"></i>Keluhan: {{ janji.keluhan_utama }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body p-4">
+                    <form method="post" id="rekamMedisForm">
+                        {% csrf_token %}
+
+                        <div class="mb-4"> 
+                            <label for="diagnosa" class="form-label fw-bold text-success"><i class="bi bi-clipboard2-pulse me-1"></i>Diagnosa</label>
+                            <textarea class="form-control border-success border-opacity-25 {% if form.diagnosa.errors %}is-invalid{% endif %}" 
+                                    id="diagnosa" name="diagnosa" rows="4" 
+                                    placeholder="Masukkan diagnosa dokter..." required></textarea>
+                            {% if form.diagnosa.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.diagnosa.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-success"><i class="bi bi-prescription2 me-1"></i>Resep Obat</label>
+                            <div id="resep-container" class="mb-3 p-3 bg-light rounded border border-success border-opacity-10">
+                                <!-- Template Resep Item Awal -->
+                                <div class="resep-item row gx-3 mb-3 align-items-center">
+                                    <div class="col-md-6 mb-2 mb-md-0">
+                                        <select name="obat[]" class="form-select form-select-sm border-success border-opacity-25 {% if form.obat.errors %}is-invalid{% endif %}" required>
+                                            <option value="" disabled selected>--- Pilih Obat ---</option>
+                                            {% for obat in obat_list %}
+                                                <option value="{{ obat.id }}">{{ obat.nama }} (Stok: {{ obat.stok }})</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 mb-2 mb-md-0">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" name="jumlah[]" class="form-control border-success border-opacity-25 {% if form.jumlah.errors %}is-invalid{% endif %}" 
+                                                placeholder="Jumlah" min="1" required>
+                                            <span class="input-group-text bg-success bg-opacity-10 border-success border-opacity-25">unit</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-6 d-flex justify-content-md-start justify-content-end">
+                                        <!-- Tombol hapus disembunyikan untuk item pertama jika hanya satu -->
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-resep" style="display: none;">
+                                            <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Hapus</span>
+                                        </button>
+                                    </div>
+                                    {% if form.obat.errors or form.jumlah.errors %}
+                                        <div class="col-12 mt-1">
+                                            <small class="text-danger">
+                                            {% for error in form.obat.errors %}{{ error }}{% endfor %}
+                                            {% for error in form.jumlah.errors %}{{ error }}{% endfor %}
+                                            </small>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <!-- Akhir Template Resep Item -->
+                            </div>
+                            <button type="button" id="tambah-resep" class="btn btn-outline-success btn-sm">
+                                <i class="bi bi-plus-circle me-1"></i>Tambah Obat Lain
+                            </button>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="catatan" class="form-label fw-bold text-success"><i class="bi bi-journal-text me-1"></i>Catatan Tambahan</label>
+                            <textarea class="form-control border-success border-opacity-25 {% if form.catatan.errors %}is-invalid{% endif %}" 
+                                    id="catatan" name="catatan" rows="3" 
+                                    placeholder="Catatan tambahan untuk pasien atau rekam medis (opsional)"></textarea>
+                            {% if form.catatan.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.catatan.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4 pt-3 border-top border-success border-opacity-10">
+                            <a href="{% url 'dokter:dashboard_dokter' %}" class="btn btn-outline-secondary me-2">
+                                <i class="bi bi-x-circle me-1"></i> Batal
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save me-1"></i> Simpan Rekam Medis
+                            </button>
+                        </div>
+                    </form> <!-- End Form -->
+                </div> <!-- End card-body -->
+            </div> <!-- End card -->
+
+        </div> <!-- End col -->
+    </div> <!-- End row -->
+</div> <!-- End container -->
+{% endblock content %}
+
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const resepContainer = document.getElementById('resep-container');
+    const tambahResepBtn = document.getElementById('tambah-resep');
+
+    function createResepItem() {
+        const newItem = document.createElement('div');
+        newItem.className = 'resep-item row gx-3 mb-3 align-items-center';
+        
+        newItem.innerHTML = `
+            <div class="col-md-6 mb-2 mb-md-0">
+                <select name="obat[]" class="form-select form-select-sm border-success border-opacity-25" required>
+                    <option value="" disabled selected>--- Pilih Obat ---</option>
+                    {% for obat in obat_list %}
+                        <option value="{{ obat.id }}">{{ obat.nama }} (Stok: {{ obat.stok }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-6 mb-2 mb-md-0">
+                <div class="input-group input-group-sm">
+                    <input type="number" name="jumlah[]" class="form-control border-success border-opacity-25" placeholder="Jumlah" min="1" required>
+                    <span class="input-group-text bg-success bg-opacity-10 border-success border-opacity-25">unit</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 d-flex justify-content-md-start justify-content-end">
+                <button type="button" class="btn btn-outline-danger btn-sm remove-resep">
+                    <i class="bi bi-trash"></i> <span class="d-none d-md-inline">Hapus</span>
+                </button>
+            </div>
+            <div class="col-12 error-placeholder mt-1" style="display: none;"><small class="text-danger"></small></div>
+        `;
+        return newItem;
+    }
+
+    // Function to update visibility of remove buttons
+    function updateRemoveButtons() {
+        const items = resepContainer.querySelectorAll('.resep-item');
+        items.forEach((item, index) => {
+            const removeBtn = item.querySelector('.remove-resep');
+            if (removeBtn) {
+                // Show remove button only if there's more than one item
+                removeBtn.style.display = items.length > 1 ? 'inline-block' : 'none';
+            }
+        });
+    }
+
+    // Event listener for adding a new prescription item
+    if (tambahResepBtn) {
+        tambahResepBtn.addEventListener('click', function() {
+            const newItem = createResepItem();
+            resepContainer.appendChild(newItem);
+            updateRemoveButtons(); // Update button visibility after adding
+        });
+    }
+
+    resepContainer.addEventListener('click', function(e) {
+        // Find the closest ancestor which is a remove button
+        const removeBtn = e.target.closest('.remove-resep');
+        if (removeBtn) {
+            const itemToRemove = removeBtn.closest('.resep-item');
+            if (itemToRemove && resepContainer.querySelectorAll('.resep-item').length > 1) {
+                itemToRemove.remove();
+                updateRemoveButtons(); 
+            } else {
+                alert('Setidaknya satu obat harus ada dalam resep.');
+            }
+        }
+    });
+
+    updateRemoveButtons();
+});
+</script>
+{% endblock scripts %}

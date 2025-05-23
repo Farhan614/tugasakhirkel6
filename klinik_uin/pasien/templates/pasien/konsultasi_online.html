@@ -1,0 +1,117 @@
+{% extends 'base_pasien.html' %}
+{% load static %} {# Opsional, untuk masa depan #}
+
+{% block title %}Mulai Konsultasi Online Baru{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10"> {# Batasi lebar form agar tidak terlalu lebar di layar besar #}
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Konsultasi Online Baru</h2>
+            <a href="{% url 'pasien:pasien_dashboard' %}" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-x-lg"></i> Batal
+            </a>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text text-muted mb-4">Pilih poli dan dokter yang tersedia, lalu jelaskan keluhan atau pertanyaan Anda untuk memulai sesi konsultasi.</p>
+
+                {# Pesan Django sudah ditangani di base.html #}
+                {# {% if messages %} ... {% endif %} #}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="poli" class="form-label">Pilih Poli</label>
+                        <select name="poli" id="poli" class="form-select" onchange="filterDokter()">
+                            <option value="">-- Pilih Poli --</option>
+                            {% for poli in poli_list %}
+                                <option value="{{ poli.id }}">{{ poli.nama }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dokter" class="form-label">Pilih Dokter</label>
+                        <select name="dokter" id="dokter" class="form-select" required disabled> {# Mulai dengan disabled #}
+                            <option value="">-- Pilih Poli terlebih dahulu --</option>
+                            {% for dokter in dokters %}
+                                {# Sembunyikan semua dokter awalnya, filter JS akan menampilkannya #}
+                                <option value="{{ dokter.id }}" data-poli="{{ dokter.poli.id }}" style="display: none;">
+                                    {{ dokter.nama }} ({{ dokter.spesialisasi }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="keluhan" class="form-label">Keluhan atau Pertanyaan Awal</label>
+                        <textarea name="keluhan" id="keluhan" class="form-control" rows="5" placeholder="Jelaskan keluhan atau pertanyaan Anda secara singkat..." required></textarea>
+                    </div>
+                    <div class="mt-4 d-grid gap-2 d-sm-flex justify-content-sm-end"> {# Tombol rata kanan di layar kecil ke atas #}
+                         <a href="{% url 'pasien:pasien_dashboard' %}" class="btn btn-outline-secondary">
+                             <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+                         </a>
+                         <button type="submit" class="btn btn-primary bg-success">
+                             <i class="bi bi-send me-1"></i> Kirim Permintaan Konsultasi
+                         </button>
+                    </div>
+                </form>
+            </div> {# End card-body #}
+        </div> {# End card #}
+
+    </div> {# End col #}
+</div> {# End row #}
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }} {# Mewarisi script dari base.html #}
+<script>
+    function filterDokter() {
+        const poliId = document.getElementById('poli').value;
+        const dokterSelect = document.getElementById('dokter');
+        const options = dokterSelect.options; // Lebih baik pakai .options
+        const placeholderOption = dokterSelect.querySelector('option[value=""]');
+
+        let foundDokter = false;
+        dokterSelect.value = ''; // Reset pilihan dokter setiap kali poli berubah
+
+        // Enable/disable dokter select berdasarkan pilihan poli
+        if (poliId === '') {
+            dokterSelect.disabled = true;
+            placeholderOption.textContent = '-- Pilih Poli terlebih dahulu --';
+        } else {
+            dokterSelect.disabled = false;
+            placeholderOption.textContent = '-- Pilih Dokter --'; // Default placeholder saat poli dipilih
+        }
+
+        // Loop melalui opsi dokter (mulai dari indeks 1 untuk lewati placeholder)
+        for (let i = 1; i < options.length; i++) {
+            const option = options[i];
+            const optionPoliId = option.getAttribute('data-poli');
+
+            // Tampilkan hanya jika poli dipilih dan ID poli cocok
+            if (poliId !== '' && optionPoliId === poliId) {
+                option.style.display = '';
+                foundDokter = true;
+            } else {
+                option.style.display = 'none';
+            }
+        }
+
+        // Update placeholder jika tidak ada dokter di poli terpilih
+        if (poliId !== '' && !foundDokter) {
+            placeholderOption.textContent = '-- Tidak ada dokter di poli ini --';
+            dokterSelect.disabled = true; // Nonaktifkan jika tidak ada dokter
+        } else if (poliId !== '' && foundDokter){
+             dokterSelect.disabled = false; // Pastikan enable jika ada dokter
+             placeholderOption.textContent = '-- Pilih Dokter --';
+        }
+    }
+
+    // Panggil filterDokter saat halaman dimuat untuk mengatur state awal dropdown dokter
+    document.addEventListener('DOMContentLoaded', function() {
+        filterDokter();
+    });
+</script>
+{% endblock %}

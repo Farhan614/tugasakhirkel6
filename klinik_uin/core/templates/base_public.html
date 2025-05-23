@@ -1,0 +1,411 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Klinik Pratama UIN Raden Intan Lampung{% endblock %}</title>
+
+    <!-- Bootstrap CSS (dari CDN) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS library for scroll animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    {% block styles %}
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --pale-green: #e8f5e9;
+            --accent-green: #1b5e20;
+            --text-dark: #263238;
+            --text-medium: #546e7a;
+            --transition: all 0.3s ease;
+        }
+
+        /* Style dasar umum untuk halaman publik */
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .section-padding {
+            padding: 4rem 1rem;
+        }
+
+        /* Navbar Styling */
+        .navbar-public {
+            background-color: #ffffff !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            padding: 0.8rem 0;
+            transition: var(--transition);
+        }
+
+        .navbar-brand {
+            color: var(--primary-green) !important;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .navbar-brand img {
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-2px);
+        }
+
+        .navbar-toggler {
+            border-color: var(--light-green);
+            color: var(--primary-green);
+            transition: var(--transition);
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+            outline: none;
+        }
+
+        .nav-link {
+            color: var(--text-dark) !important;
+            font-weight: 500;
+            padding: 0.7rem 1rem !important;
+            border-radius: 4px;
+            margin: 0 2px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link:focus {
+            color: var(--primary-green) !important;
+            background-color: var(--pale-green);
+        }
+
+        .nav-link.active {
+            color: var(--primary-green) !important;
+            background-color: var(--pale-green);
+            font-weight: 600;
+        }
+
+        .nav-link.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 5px;
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+
+        .dropdown-item {
+            color: var(--text-medium);
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            color: var(--primary-green);
+            background-color: var(--pale-green);
+        }
+
+        .dropdown-item.active {
+            background-color: var(--light-green);
+            color: white;
+        }
+
+        .navbar-text {
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0.8rem;
+            border-radius: 20px;
+            background-color: var(--pale-green);
+            font-weight: 500;
+        }
+
+        .navbar-text i {
+            color: var(--primary-green);
+            margin-right: 6px;
+        }
+
+        /* Hero Section Styling */
+        .hero-section {
+            padding: 6rem 1rem;
+            background: linear-gradient(135deg, var(--pale-green), #ffffff);
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .hero-section .lead {
+            color: var(--text-medium);
+            margin-bottom: 2rem;
+        }
+
+        .hero-section img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 2rem;
+            max-height: 350px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Feature Section */
+        #fitur {
+            background-color: #ffffff;
+        }
+
+        .feature-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background-color: var(--pale-green);
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .feature-box:hover .feature-icon {
+            background-color: var(--primary-green);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        #fitur h5 {
+            margin-top: 0.5rem;
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        /* About Section */
+        #tentang.bg-light {
+            background-color: var(--pale-green) !important;
+        }
+
+        /* Contact Section */
+        #kontak {
+            background-color: #ffffff;
+        }
+
+        #kontak .contact-icon {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        #kontak .contact-box:hover .contact-icon {
+            transform: translateY(-5px);
+        }
+
+        #kontak h5 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-green);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--accent-green) !important;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 2rem 0;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            transition: var(--transition);
+        }
+
+        footer a:hover {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
+    {% endblock %}
+</head>
+
+<body>
+    <!-- Navbar Publik - Updated with Green Theme -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top navbar-public">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'core:landing_page' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo Klinik" height="36"
+                    class="d-inline-block align-text-top">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavPublic"
+                aria-controls="navbarNavPublic" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavPublic">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'landing_page' %}active{% endif %}"
+                            aria-current="page" href="{% url 'core:landing_page' %}">
+                            <i class="fas fa-home me-1"></i> Beranda
+                        </a>
+                    </li>
+
+                    <!-- Profil Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProfil" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Profil
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownProfil">
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'visi_misi' %}active{% endif %}"
+                                    href="{% url 'core:visi_misi' %}">Visi Misi</a></li>
+                            <li><a class="dropdown-item" href="#">Struktur Organisasi</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Layanan Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLayanan" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Layanan
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownLayanan">
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'layanan_umum' %}active{% endif %}"
+                                    href="{% url 'core:layanan_umum' %}">Poli Umum</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'layanan_konseling' %}active{% endif %}"
+                                    href="{% url 'core:layanan_konseling' %}">Poli Konseling</a></li>
+                            <li><a class="dropdown-item {% if request.resolver_match.url_name == 'layanan_kia' %}active{% endif %}"
+                                    href="{% url 'core:layanan_kia' %}">Poli KIA</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Silatan
+                        </a>
+                    </li>
+
+                    <!-- Informasi Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownInformasi" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Informasi
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownInformasi">
+                            <li><a class="dropdown-item" href="#">Edukasi</a></li>
+                            <li><a class="dropdown-item" href="#">Artikel</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kontak">
+                            Kontak Kami
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Schedule Badge -->
+                <span class="navbar-text me-3 d-none d-lg-inline">
+                    <i class="fas fa-clock"></i> Sen-Jum: 08:00-16:00
+                </span>
+            </div>
+        </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main>
+        {% block content %}
+        <!-- Konten spesifik halaman akan dimuat di sini -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer - Updated with Green Theme -->
+    <footer class="py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <p class="mb-1">© {% now "Y" %} Klinik Pratama UIN Raden Intan Lampung. All Rights Reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <small><a href="#">Kebijakan Privasi</a> | <a href="#">Syarat & Ketentuan</a></small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle (dari CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+    <!-- AOS library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    {% block scripts %}
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+
+            // Add smooth scroll behavior for all links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Add shadow to navbar when scrolling
+            window.addEventListener('scroll', function () {
+                const navbar = document.querySelector('.navbar-public');
+                if (window.scrollY > 10) {
+                    navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
+                    navbar.style.padding = '0.6rem 0';
+                } else {
+                    navbar.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.08)';
+                    navbar.style.padding = '0.8rem 0';
+                }
+            });
+        });
+    </script>
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,126 @@
+{% extends 'base_apoteker.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Kelola Obat - Apotek{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow-sm border-0 rounded-lg mb-4">
+                <div class="card-header bg-gradient-primary-to-secondary text-white">
+                    <h4 class="m-0 font-weight-bold">Keluarkan Obat</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body py-3">
+                                    <h6 class="card-subtitle mb-2 text-muted">Informasi Pasien</h6>
+                                    <h5 class="card-title">{{ resep.pasien.nama }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body py-3">
+                                    <h6 class="card-subtitle mb-2 text-muted">Dokter</h6>
+                                    <h5 class="card-title">{{ resep.dokter.nama }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body py-3">
+                                    <h6 class="card-subtitle mb-2 text-muted">Tanggal Resep</h6>
+                                    <h5 class="card-title">{{ resep.tanggal_dibuat|date:"d M Y H:i" }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-bold mb-3 border-bottom pb-2">Daftar Obat</h5>
+                    
+                    <div class="table-responsive mb-4">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col">Nama Obat</th>
+                                    <th scope="col">Jumlah</th>
+                                    <th scope="col">Stok Tersedia</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for detail in resep.detail.all %}
+                                <tr>
+                                    <td>{{ detail.obat.nama }}</td>
+                                    <td>{{ detail.jumlah }}</td>
+                                    <td>{{ detail.obat.stok }}</td>
+                                    <td>
+                                        {% if detail.obat.stok >= detail.jumlah %}
+                                        <span class="badge bg-success">Tersedia</span>
+                                        {% else %}
+                                        <span class="badge bg-danger">Stok Kurang</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center py-3">Tidak ada obat dalam resep ini.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="catatan" class="form-label fw-bold">Catatan (opsional)</label>
+                            <textarea name="catatan" id="catatan" class="form-control" rows="3" placeholder="Tambahkan catatan untuk pasien atau dokter jika diperlukan"></textarea>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'apoteker:dashboard_apoteker' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Kembali
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-box-arrow-right me-1"></i> Keluarkan Obat
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    // Tambahan JavaScript jika diperlukan
+    document.addEventListener('DOMContentLoaded', function() {
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            });
+        }, 5000);
+    });
+</script>
+{% endblock %}

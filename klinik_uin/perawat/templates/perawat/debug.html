@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Debug Janji Temu{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <div class="card border-0 shadow-sm mb-4 bg-white">
+        <div class="card-body">
+            <h3 class="mb-3 text-danger">Debug Janji Temu</h3>
+            
+            <div class="mb-4 p-3 bg-light rounded">
+                <h5>Informasi Perawat dan Poli</h5>
+                <ul>
+                    <li><strong>Perawat ID:</strong> {{ debug_data.perawat_id }}</li>
+                    <li><strong>Poli ID:</strong> {{ debug_data.perawat_poli_id }}</li>
+                    <li><strong>Nama Poli:</strong> {{ debug_data.perawat_poli_nama }}</li>
+                    <li><strong>Tanggal Hari Ini:</strong> {{ debug_data.today }}</li>
+                </ul>
+            </div>
+
+            <div class="mb-4 p-3 bg-light rounded">
+                <h5>Dokter di Poli yang Sama</h5>
+                <ul>
+                    <li><strong>Jumlah Dokter di Poli:</strong> {{ debug_data.jumlah_dokter_poli }}</li>
+                </ul>
+                {% if debug_data.dokter_poli %}
+                    <ol>
+                    {% for dokter in debug_data.dokter_poli %}
+                        <li>{{ dokter }}</li>
+                    {% endfor %}
+                    </ol>
+                {% else %}
+                    <p class="text-danger">Tidak ada dokter di poli ini.</p>
+                {% endif %}
+            </div>
+
+            <h4 class="mt-4 mb-3">Semua Janji Temu (20 Terakhir)</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Kode Antrian</th>
+                            <th>Pasien</th>
+                            <th>Dokter</th>
+                            <th>Poli ID</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Diperiksa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if all_janji %}
+                            {% for janji in all_janji %}
+                            <tr>
+                                <td>{{ janji.id }}</td>
+                                <td>{{ janji.kode_antrian }}</td>
+                                <td>{{ janji.pasien.nama }}</td>
+                                <td>{{ janji.dokter.nama }}</td>
+                                <td>{{ janji.dokter.poli.id }}</td>
+                                <td>{{ janji.tanggal }}</td>
+                                <td>{{ janji.status }}</td>
+                                <td>{% if janji.diperiksa_perawat %}Ya{% else %}Tidak{% endif %}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center">Tidak ada data janji temu.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <h4 class="mt-5 mb-3 text-success">Janji Temu di Poli yang Sama (20 Terakhir)</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead class="table-success">
+                        <tr>
+                            <th>ID</th>
+                            <th>Kode Antrian</th>
+                            <th>Pasien</th>
+                            <th>Dokter</th>
+                            <th>Poli ID</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                            <th>Diperiksa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if poli_janji %}
+                            {% for janji in poli_janji %}
+                            <tr>
+                                <td>{{ janji.id }}</td>
+                                <td>{{ janji.kode_antrian }}</td>
+                                <td>{{ janji.pasien.nama }}</td>
+                                <td>{{ janji.dokter.nama }}</td>
+                                <td>{{ janji.dokter.poli.id }}</td>
+                                <td>{{ janji.tanggal }}</td>
+                                <td>{{ janji.status }}</td>
+                                <td>{% if janji.diperiksa_perawat %}Ya{% else %}Tidak{% endif %}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8" class="text-center">Tidak ada data janji temu di poli yang sama.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <a href="{% url 'perawat:dashboard_perawat' %}" class="btn btn-primary">Kembali ke Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

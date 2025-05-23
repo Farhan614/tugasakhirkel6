@@ -1,0 +1,167 @@
+{% extends 'base_pasien.html' %}
+{% load humanize %}
+
+{% block title %}Pembayaran Janji Temu - {{ janji_temu.pasien.nama }}{% endblock %}
+
+{% block content %}
+<style>
+    .payment-card {
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    .payment-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    .appointment-info {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .doctor-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .doctor-avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 24px;
+        color: #6c757d;
+    }
+    .appointment-time {
+        background-color: #e9f7fe;
+        border-left: 4px solid #3498db;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin: 15px 0;
+    }
+    .price-tag {
+        font-size: 24px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+    .payment-btn {
+        background-color: #2ecc71;
+        border: none;
+        padding: 12px 25px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+    .payment-btn:hover {
+        background-color: #27ae60;
+        transform: scale(1.03);
+    }
+    .payment-note {
+        font-size: 14px;
+        color: #7f8c8d;
+        margin-top: 15px;
+    }
+    .section-title {
+        border-bottom: 2px solid #f1f1f1;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        color: #3498db;
+    }
+</style>
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2 class="section-title">Pembayaran Janji Temu</h2>
+            
+            <div class="card payment-card">
+                <div class="card-body p-4">
+                    <div class="appointment-info">
+                        <div class="doctor-info">
+                            <div>
+                                <h5 class="mb-0">{{ janji_temu.pasien.nama }}</h5>
+                                <p class="text-muted mb-0">Pasien</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <p><strong>Dokter:</strong></p>
+                                <h6 class="text-primary">Dr. {{ janji_temu.dokter.nama }}</h6>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Spesialisasi:</strong></p>
+                                <h6>{{ janji_temu.dokter.spesialisasi|default:"Umum" }}</h6>
+                            </div>
+                        </div>
+                        
+                        <div class="appointment-time">
+                            <i class="far fa-calendar-alt me-2"></i> {{ janji_temu.tanggal|date:"l, d F Y" }}<br>
+                            <i class="far fa-clock me-2"></i> {{ janji_temu.tanggal|date:"H:i" }} WIB
+                        </div>
+                    </div>
+                    
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5>Rincian Biaya:</h5>
+                            <table class="table table-borderless">
+                                <tr>
+                                    <td>Biaya Konsultasi</td>
+                                    <td class="text-end">Rp {{ janji_temu.biaya_konsultasi|floatformat:0|intcomma }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pajak (0%)</td>
+                                    <td class="text-end">Rp 0</td>
+                                </tr>
+                                <tr class="fw-bold">
+                                    <td>Total</td>
+                                    <td class="text-end price-tag">Rp {{ janji_temu.biaya_konsultasi|floatformat:0|intcomma }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <button id="pay-button" class="btn payment-btn btn-lg w-100">
+                                <i class="fas fa-credit-card me-2"></i> Bayar Sekarang
+                            </button>
+                            <p class="payment-note mt-2">
+                                Pembayaran aman melalui Midtrans
+                                <i class="fas fa-lock ms-1"></i>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ midtrans_client_key }}"></script>
+<script>
+    document.getElementById('pay-button').onclick = function() {
+        snap.pay('{{ transaction_token }}', {
+            onSuccess: function(result) {
+                alert('Pembayaran berhasil!');
+                window.location.href = "{% url 'pasien:pasien_dashboard' %}";
+            },
+            onPending: function(result) {
+                alert('Pembayaran tertunda. Silakan selesaikan pembayaran.');
+                window.location.href = "{% url 'pasien:pasien_dashboard' %}";
+            },
+            onError: function(result) {
+                alert('Pembayaran gagal.');
+                window.location.href = "{% url 'pasien:pasien_dashboard' %}";
+            },
+            onClose: function() {
+                alert('Anda menutup popup pembayaran.');
+                window.location.href = "{% url 'pasien:pasien_dashboard' %}";
+            }
+        });
+    };
+</script>
+{% endblock %}

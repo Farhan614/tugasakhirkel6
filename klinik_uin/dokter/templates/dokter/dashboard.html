@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard Dokter - {{ nama_dokter }}{% endblock title %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <!-- Profile Header with Elegant Green Theme -->
+    <div class="card border-0 shadow-sm mb-4 bg-white">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    {% if dokter.foto %}
+                        <div class="rounded-circle overflow-hidden" style="width: 80px; height: 80px; border: 2px solid #38A169;">
+                            <img src="{{ dokter.foto.url }}" alt="Foto {{ nama_dokter }}" class="img-fluid">
+                        </div>
+                    {% else %}
+                        <div class="rounded-circle overflow-hidden" style="width: 80px; height: 80px; border: 2px solid #38A169;">
+                            <img src="{% static 'images/default_avatar.png' %}" alt="Foto Default" class="img-fluid">
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    <h3 class="mb-1 text-success">Selamat Datang, Dr. {{ nama_dokter }}</h3>
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'dokter:edit_foto_dokter' %}" class="btn btn-outline-success me-2"><i class="bi bi-pencil-square me-1"></i> Edit Foto</a>
+                    <a href="{% url 'dokter:export_laporan_pdf' %}" class="btn btn-success"><i class="bi bi-file-earmark-pdf me-1"></i> Export PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Clean Tabs Navigation -->
+    <ul class="nav nav-tabs border-bottom-0 mb-0" id="dokterTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active text-success" id="hari-ini-tab" data-bs-toggle="tab" data-bs-target="#jadwal_hari_ini" type="button" role="tab" aria-controls="jadwal_hari_ini" aria-selected="true">
+                <i class="bi bi-calendar-check me-1"></i> Hari Ini 
+                <span class="badge bg-success rounded-pill ms-1">{{ total_hari_ini|default:0 }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success" id="mendatang-tab" data-bs-toggle="tab" data-bs-target="#jadwal_mendatang" type="button" role="tab" aria-controls="jadwal_mendatang" aria-selected="false">
+                <i class="bi bi-calendar-plus me-1"></i> Mendatang
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success" id="riwayat-tab" data-bs-toggle="tab" data-bs-target="#riwayat" type="button" role="tab" aria-controls="riwayat" aria-selected="false">
+                <i class="bi bi-clock-history me-1"></i> Riwayat 
+                <span class="badge bg-secondary rounded-pill ms-1">{{ total_riwayat_pasien|default:0 }}</span>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success" id="konsultasi-belum-tab" data-bs-toggle="tab" data-bs-target="#konsultasi_belum_ditangani" type="button" role="tab" aria-controls="konsultasi_belum_ditangani" aria-selected="false">
+                <i class="bi bi-chat-text me-1"></i> Konsultasi Baru
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success" id="riwayat-konsultasi-tab" data-bs-toggle="tab" data-bs-target="#riwayat_konsultasi" type="button" role="tab" aria-controls="riwayat_konsultasi" aria-selected="false">
+                <i class="bi bi-chat-square-text me-1"></i> Riwayat Konsultasi
+            </button>
+        </li>
+    </ul>
+
+    <!-- Content Area with Elegant Card Design -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <div class="tab-content" id="dokterTabContent">
+                <!-- Tab: Jadwal Hari Ini -->
+                <div class="tab-pane fade show active" id="jadwal_hari_ini" role="tabpanel" aria-labelledby="hari-ini-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-success mb-0"><i class="bi bi-calendar-day me-2"></i>Jadwal Hari Ini</h5>
+                    </div>
+                    {% if jadwal_hari_ini %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-borderless">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="py-3">Antrian</th>
+                                        <th class="py-3">Pasien</th>
+                                        <th class="py-3">Poli</th>
+                                        <th class="py-3">Waktu</th>
+                                        <th class="py-3">Keluhan</th>
+                                        <th class="py-3">Status</th>
+                                        <th class="py-3">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for j in jadwal_hari_ini %}
+                                    <tr class="border-bottom">
+                                        <td><span class="badge bg-success text-white">{{ j.kode_antrian }}</span></td>
+                                        <td><strong>{{ j.pasien.nama }}</strong></td>
+                                        <td>{{ j.dokter.poli.nama }}</td>
+                                        <td>{{ j.tanggal|date:"H:i" }}</td>
+                                        <td>{{ j.keluhan_utama|truncatewords:5 }}</td>
+                                        <td>
+                                            <span class="badge {% if j.status == 'Menunggu' %}bg-warning{% elif j.status == 'Dipanggil' %}bg-success{% elif j.status == 'Selesai' %}bg-secondary{% else %}bg-light text-dark{% endif %}">
+                                                {% if j.status == 'Menunggu' %}<i class="bi bi-hourglass me-1"></i>{% elif j.status == 'Dipanggil' %}<i class="bi bi-person-check me-1"></i>{% elif j.status == 'Selesai' %}<i class="bi bi-check-circle me-1"></i>{% endif %}
+                                                {{ j.status }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <form method="post" style="display:inline;" class="me-2">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="ubah_status" value="1">
+                                                    <input type="hidden" name="janji_id" value="{{ j.id }}">
+                                                    <select name="status" class="form-select form-select-sm border-success" onchange="this.form.submit()">
+                                                        <option value="Menunggu" {% if j.status == "Menunggu" %}selected{% endif %}>Menunggu</option>
+                                                        <option value="Dipanggil" {% if j.status == "Dipanggil" %}selected{% endif %}>Panggil</option>
+                                                        <option value="Selesai" {% if j.status == "Selesai" %}selected{% endif %}>Selesai</option>
+                                                    </select>
+                                                </form>
+                                                {% if j.status == "Dipanggil" %}
+                                                    <a href="{% url 'dokter:rekam_medis_janji' j.id %}" class="btn btn-sm btn-success text-nowrap">
+                                                       <i class="bi bi-file-earmark-medical me-1"></i> RM
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">Tidak ada jadwal untuk hari ini.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tab: Jadwal Mendatang -->
+                <div class="tab-pane fade" id="jadwal_mendatang" role="tabpanel" aria-labelledby="mendatang-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-success mb-0"><i class="bi bi-calendar-plus me-2"></i>Jadwal Mendatang</h5>
+                    </div>
+                    {% if jadwal_mendatang %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-borderless">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="py-3">Antrian</th>
+                                        <th class="py-3">Pasien</th>
+                                        <th class="py-3">Poli</th>
+                                        <th class="py-3">Tanggal & Waktu</th>
+                                        <th class="py-3">Keluhan</th>
+                                        <th class="py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for j in jadwal_mendatang %}
+                                    <tr class="border-bottom">
+                                        <td><span class="badge bg-secondary text-white">{{ j.kode_antrian }}</span></td>
+                                        <td><strong>{{ j.pasien.nama }}</strong></td>
+                                        <td>{{ j.dokter.poli.nama }}</td>
+                                        <td class="text-nowrap">{{ j.tanggal|date:"d M Y, H:i" }}</td>
+                                        <td>{{ j.keluhan_utama|truncatewords:5 }}</td>
+                                        <td>
+                                            <span class="badge {% if j.status == 'Menunggu' %}bg-warning{% elif j.status == 'Dipanggil' %}bg-success{% elif j.status == 'Selesai' %}bg-secondary{% else %}bg-light text-dark{% endif %}">
+                                                {% if j.status == 'Menunggu' %}<i class="bi bi-hourglass me-1"></i>{% elif j.status == 'Dipanggil' %}<i class="bi bi-person-check me-1"></i>{% elif j.status == 'Selesai' %}<i class="bi bi-check-circle me-1"></i>{% endif %}
+                                                {{ j.status }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-calendar-plus text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">Tidak ada jadwal mendatang.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tab: Riwayat -->
+                <div class="tab-pane fade" id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-success mb-0"><i class="bi bi-clock-history me-2"></i>Riwayat Janji Temu</h5>
+                    </div>
+                    {% if riwayat %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-borderless">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="py-3">Antrian</th>
+                                        <th class="py-3">Pasien</th>
+                                        <th class="py-3">Poli</th>
+                                        <th class="py-3">Tanggal & Waktu</th>
+                                        <th class="py-3">Keluhan</th>
+                                        <th class="py-3">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for j in riwayat %}
+                                    <tr class="border-bottom">
+                                        <td><span class="badge bg-light text-dark">{{ j.kode_antrian }}</span></td>
+                                        <td><strong>{{ j.pasien.nama }}</strong></td>
+                                        <td>{{ j.dokter.poli.nama }}</td>
+                                        <td class="text-nowrap">{{ j.tanggal|date:"d M Y, H:i" }}</td>
+                                        <td>{{ j.keluhan_utama|truncatewords:5 }}</td>
+                                        <td><span class="badge bg-secondary"><i class="bi bi-check-circle me-1"></i>{{ j.status }}</span></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-clock-history text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">Tidak ada riwayat janji temu.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tab: Konsultasi Belum Ditangani -->
+                <div class="tab-pane fade" id="konsultasi_belum_ditangani" role="tabpanel" aria-labelledby="konsultasi-belum-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-success mb-0"><i class="bi bi-chat-text me-2"></i>Konsultasi Belum Ditangani</h5>
+                    </div>
+                    {% if konsultasi_belum_ditangani %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-borderless">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="py-3">Tanggal</th>
+                                        <th class="py-3">Pasien</th>
+                                        <th class="py-3">Status</th>
+                                        <th class="py-3">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for k in konsultasi_belum_ditangani %}
+                                    <tr class="border-bottom">
+                                        <td class="text-nowrap"><i class="bi bi-calendar-date me-1 text-muted"></i>{{ k.tanggal_konsultasi|date:"d M Y, H:i" }}</td>
+                                        <td><strong>{{ k.pasien.nama }}</strong></td>
+                                        <td><span class="badge bg-warning"><i class="bi bi-hourglass me-1"></i>{{ k.status }}</span></td>
+                                        <td>
+                                            <a href="{% url 'dokter:respons_konsultasi' k.id %}" class="btn btn-sm btn-success">
+                                                <i class="bi bi-chat-dots me-1"></i> Tanggapi
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-chat text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">Tidak ada konsultasi yang belum ditangani.</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tab: Riwayat Konsultasi -->
+                <div class="tab-pane fade" id="riwayat_konsultasi" role="tabpanel" aria-labelledby="riwayat-konsultasi-tab">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold text-success mb-0"><i class="bi bi-chat-square-text me-2"></i>Riwayat Konsultasi</h5>
+                    </div>
+                    {% if konsultasi_selesai %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle table-borderless">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th class="py-3">Tanggal</th>
+                                        <th class="py-3">Pasien</th>
+                                        <th class="py-3">Status</th>
+                                        <th class="py-3">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for k in konsultasi_selesai %}
+                                    <tr class="border-bottom">
+                                        <td class="text-nowrap"><i class="bi bi-calendar-date me-1 text-muted"></i>{{ k.tanggal_konsultasi|date:"d M Y, H:i" }}</td>
+                                        <td><strong>{{ k.pasien.nama }}</strong></td>
+                                        <td><span class="badge bg-secondary"><i class="bi bi-check-circle me-1"></i>{{ k.status }}</span></td>
+                                        <td>
+                                            <a href="{% url 'dokter:respons_konsultasi' k.id %}" class="btn btn-sm btn-outline-success">
+                                               <i class="bi bi-search me-1"></i> Detail
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i class="bi bi-chat-square-text text-muted" style="font-size: 3rem;"></i>
+                            <p class="text-muted mt-3">Tidak ada riwayat konsultasi.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    const firstTabEl = document.querySelector('#dokterTab button[data-bs-toggle="tab"]')
+    const firstTab = new bootstrap.Tab(firstTabEl)
+    firstTab.show()
+</script>
+{% endblock scripts %}

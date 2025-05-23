@@ -1,0 +1,128 @@
+{% extends 'base_apoteker.html' %}
+{% load math_filters %}
+{% load humanize %} {# Untuk format harga #}
+
+{% block title %}Detail Resep Selesai - {{ resep.pasien.nama }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Detail Resep Selesai</h2>
+    <a href="{% url 'apoteker:dashboard_apoteker' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+    </a>
+</div>
+
+{# Pesan Django sudah ditangani di base.html #}
+
+<div class="card">
+    <div class="card-header">
+        <i class="bi bi-file-earmark-medical me-1"></i> Informasi Resep
+    </div>
+    <div class="card-body p-4">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Pasien:</strong></p>
+                <p>{{ resep.pasien.nama }}</p>
+            </div>
+             <div class="col-md-6">
+                <p class="mb-1"><strong>Dokter Pemberi Resep:</strong></p>
+                <p>Dr. {{ resep.dokter.nama }} ({{ resep.dokter.spesialisasi }})</p>
+            </div>
+        </div>
+         <div class="row mb-3">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Tanggal Dibuat:</strong></p>
+                <p>{{ resep.tanggal_dibuat|date:"d M Y, H:i" }}</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Status:</strong></p>
+                <p><span class="badge bg-success">{{ resep.status }}</span></p> {# Status Selesai -> success #}
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-12">
+                 <p class="mb-1"><strong>Catatan Resep dari Dokter:</strong></p>
+                 <p>{{ resep.catatan|default:"-"|linebreaksbr }}</p>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <h4 class="mb-3"><i class="bi bi-list-check me-1"></i> Detail Obat dalam Resep</h4>
+        {% if resep.detail.all %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nama Obat</th>
+                        <th class="text-center">Jumlah Diberikan</th>
+                        <th class="text-end">Harga Satuan (Rp)</th>
+                        <th class="text-end">Total Harga (Rp)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detail in resep.detail.all %}
+                    <tr>
+                        <td>{{ detail.obat.nama }}</td>
+                        <td class="text-center">{{ detail.jumlah }}</td>
+                        <td class="text-end">{{ detail.obat.harga|floatformat:0|intcomma }}</td>
+                        {% with total_harga=detail.jumlah|multiply:detail.obat.harga %}
+                            <td class="text-end">{{ total_harga|floatformat:0|intcomma }}</td>
+                        {% endwith %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                {# Tambahkan total keseluruhan jika diperlukan dan dihitung di view #}
+                {% if total_resep %}
+                 <tfoot>
+                     <tr>
+                         <td colspan="3" class="text-end"><strong>Total Keseluruhan:</strong></td>
+                         <td class="text-end"><strong>Rp {{ total_resep|floatformat:0|intcomma }}</strong></td>
+                     </tr>
+                 </tfoot>
+                {% endif %}
+            </table>
+        </div>
+        {% else %}
+         <div class="alert alert-light border" role="alert">
+           <i class="bi bi-info-circle me-2"></i> Tidak ada detail obat yang tercatat untuk resep ini.
+         </div>
+        {% endif %}
+
+        <hr class="my-4">
+
+        <h4 class="mb-3"><i class="bi bi-person-check me-1"></i> Informasi Pengeluaran Obat</h4>
+        {% if pengeluaran %}
+        <div class="row">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Apoteker Bertugas:</strong></p>
+                <p>{{ pengeluaran.apoteker.nama|default:user.get_full_name|default:"N/A" }}</p> {# Ambil nama apoteker dari pengeluaran #}
+            </div>
+             <div class="col-md-6">
+                <p class="mb-1"><strong>Tanggal Pengeluaran:</strong></p>
+                <p>{{ pengeluaran.tanggal_pengeluaran|date:"d M Y, H:i" }}</p>
+            </div>
+             <div class="col-md-12 mt-2">
+                 <p class="mb-1"><strong>Catatan Pengeluaran oleh Apoteker:</strong></p>
+                 <p>{{ pengeluaran.catatan|default:"-"|linebreaksbr }}</p>
+            </div>
+        </div>
+        {% else %}
+         {# Seharusnya untuk resep 'Selesai', data pengeluaran ada. Tampilkan pesan jika tidak ada. #}
+         <div class="alert alert-warning d-flex align-items-center" role="alert">
+           <i class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"></i>
+           <div>
+             Informasi detail pengeluaran obat tidak ditemukan, meskipun resep berstatus selesai.
+           </div>
+         </div>
+        {% endif %}
+    </div> {# End card-body #}
+
+</div> {# End card #}
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{# Tidak perlu script spesifik di sini #}
+{% endblock %}

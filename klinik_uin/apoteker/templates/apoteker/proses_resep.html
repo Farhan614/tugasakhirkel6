@@ -1,0 +1,449 @@
+{% extends 'base_apoteker.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Kelola Obat - Apotek{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary: #4F46E5;
+        --primary-light: #EEF2FF;
+        --primary-dark: #4338CA;
+        --danger: #EF4444;
+        --success: #10B981;
+        --gray-50: #F9FAFB;
+        --gray-100: #F3F4F6;
+        --gray-200: #E5E7EB;
+        --gray-300: #D1D5DB;
+        --gray-500: #6B7280;
+        --gray-700: #374151;
+        --gray-900: #111827;
+    }
+
+    body {
+        background-color: var(--gray-100);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        color: var(--gray-700);
+        line-height: 1.5;
+    }
+
+    .app-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .page-title {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin: 0;
+    }
+
+    .card {
+        background: white;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+
+    .card-header {
+        background: transparent;
+        border-bottom: 1px solid var(--gray-200);
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .card-header-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        background-color: var(--primary-light);
+        color: var(--primary);
+        border-radius: 8px;
+    }
+
+    .card-header-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        margin: 0;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .info-label {
+        font-size: 0.875rem;
+        color: var(--gray-500);
+        margin: 0;
+    }
+
+    .info-value {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--gray-900);
+        margin: 0;
+    }
+
+    .table-container {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background-color: var(--gray-50);
+        color: var(--gray-700);
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.75rem 1rem;
+        border-top: none;
+        border-bottom: 1px solid var(--gray-200);
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        border-top: none;
+        border-bottom: 1px solid var(--gray-200);
+        vertical-align: middle;
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .table-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .table-pill.success {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+    }
+
+    .table-pill.danger {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+    }
+
+    .btn-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .btn-primary {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        transform: translateY(-1px);
+    }
+
+    .btn-outline {
+        background-color: transparent;
+        border: 1px solid var(--gray-300);
+        color: var(--gray-700);
+    }
+
+    .btn-outline:hover {
+        background-color: var(--gray-50);
+        border-color: var(--gray-400);
+        color: var(--gray-900);
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .empty-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem 1.5rem;
+        text-align: center;
+    }
+
+    .empty-state-icon {
+        font-size: 2.5rem;
+        color: var(--gray-300);
+        margin-bottom: 1rem;
+    }
+
+    .empty-state-text {
+        font-size: 0.875rem;
+        color: var(--gray-500);
+    }
+
+    .danger-text {
+        color: var(--danger);
+        font-weight: 500;
+    }
+
+    .meta-text {
+        color: var(--gray-500);
+        font-size: 0.875rem;
+    }
+
+    .meta-value {
+        color: var(--gray-900);
+        font-weight: 500;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+
+    .status-badge.success {
+        background-color: var(--success);
+    }
+
+    .status-badge.danger {
+        background-color: var(--danger);
+    }
+
+    .meta-date {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: var(--gray-500);
+    }
+
+    .footer-note {
+        font-size: 0.875rem;
+        color: var(--gray-500);
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+    }
+
+    .fade-bg {
+        background: linear-gradient(to right, var(--primary-light), white);
+        opacity: 0.8;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+    }
+</style>
+
+<body>
+    <div class="app-container">
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Proses Resep</h1>
+                <p class="meta-text">Verifikasi dan proses pengambilan obat oleh pasien</p>
+            </div>
+            <div class="meta-date">
+                <i class="fas fa-calendar-alt"></i>
+                <span>{{ resep.tanggal_dibuat|date:"d M Y • H:i" }} WIB</span>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="card-header-title">Informasi Pasien</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-item">
+                        <p class="info-label">Nama Lengkap</p>
+                        <p class="info-value">{{ resep.pasien.nama }}</p>
+                    </div>
+                    <div class="info-item mt-3">
+                        <p class="info-label">Nomor Rekam Medis</p>
+                        <p class="info-value">{{ resep.pasien.id }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-header-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3 class="card-header-title">Informasi Dokter</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-item">
+                        <p class="info-label">Nama Dokter</p>
+                        <p class="info-value">{{ resep.dokter.nama }}</p>
+                    </div>
+                    <div class="info-item mt-3">
+                        <p class="info-label">ID Dokter</p>
+                        <p class="info-value">{{ resep.dokter.id }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-icon">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <h3 class="card-header-title">Daftar Obat</h3>
+            </div>
+            <div class="card-body">
+                {% if resep.detail.all %}
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th style="width: 60px">No</th>
+                                <th>Nama Obat</th>
+                                <th style="width: 120px">Jumlah</th>
+                                <th style="width: 120px">Stok</th>
+                                <th style="width: 150px">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detail in resep.detail.all %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                    <p class="mb-0 fw-medium">{{ detail.obat.nama }}</p>
+                                </td>
+                                <td>{{ detail.jumlah }}</td>
+                                <td>
+                                    {% if detail.obat.stok < detail.jumlah %} <span class="danger-text">{{
+                                        detail.obat.stok }}</span>
+                                        {% else %}
+                                        <span class="meta-value">{{ detail.obat.stok }}</span>
+                                        {% endif %}
+                                </td>
+                                <td>
+                                    {% if detail.obat.stok >= detail.jumlah %}
+                                    <div class="table-pill success">
+                                        <span class="status-badge success"></span>
+                                        Tersedia
+                                    </div>
+                                    {% else %}
+                                    <div class="table-pill danger">
+                                        <span class="status-badge danger"></span>
+                                        Stok Kurang
+                                    </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-prescription-bottle"></i>
+                    </div>
+                    <p class="empty-state-text">Tidak ada obat dalam resep ini.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-icon">
+                    <i class="fas fa-clipboard-check"></i>
+                </div>
+                <h3 class="card-header-title">Konfirmasi Pengambilan</h3>
+            </div>
+            <div class="card-body">
+                <div class="fade-bg mb-4">
+                    <p class="footer-note mb-0">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Setelah diproses, sistem akan otomatis mengurangi stok obat dan mengubah status resep menjadi
+                        "Selesai"
+                    </p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon"><i class="fas fa-check"></i></span>
+                            <span>Proses Resep</span>
+                        </button>
+                        <a href="{% url 'apoteker:dashboard_apoteker' %}" class="btn btn-outline">
+                            <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
+                            <span>Kembali</span>
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+{% endblock %}

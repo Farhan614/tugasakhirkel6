@@ -1,0 +1,15 @@
+pasien :
+username : farhan
+password :farhan12345
+
+perawat :
+username : perawat1
+password : test12345
+
+dokter :
+username : dokter_nadila
+password : nadila123
+
+apoteker :
+username : apoteker_sigit 
+password : sigit123

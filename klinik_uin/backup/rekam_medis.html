@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Rekam Medis - Klinik Universitas{% endblock %}
+
+{% block content %}
+    <h1>Rekam Medis - {{ pasien.nama }}</h1>
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Data Pasien</h4>
+            {% if janji %}
+            <div class="mb-3">
+                <label class="form-label">Keluhan Utama</label>
+                <textarea class="form-control" readonly>{{ janji.keluhan_utama|default:"Belum ada keluhan" }}</textarea>
+            </div>
+            {% endif %}
+            <div class="mb-3">
+                <label class="form-label">Golongan Darah</label>
+                <input type="text" class="form-control" value="{{ pasien.golongan_darah|default:'Tidak diketahui' }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Berat Badan (kg)</label>
+                <input type="text" class="form-control" value="{{ pasien.berat_badan|default:'Tidak diketahui' }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Tinggi Badan (cm)</label>
+                <input type="text" class="form-control" value="{{ pasien.tinggi_badan|default:'Tidak diketahui' }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Riwayat Penyakit</label>
+                <textarea class="form-control" readonly>{{ pasien.riwayat_penyakit|default:"Tidak ada" }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Riwayat Alergi</label>
+                <textarea class="form-control" readonly>{{ pasien.riwayat_alergi|default:"Tidak ada" }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Riwayat Pengobatan</label>
+                <textarea class="form-control" readonly>{{ pasien.riwayat_pengobatan|default:"Tidak ada" }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Obat yang Sedang Dikonsumsi</label>
+                <textarea class="form-control" readonly>{{ pasien.obat_saat_ini|default:"Tidak ada" }}</textarea>
+            </div>
+
+            <h4>Rekam Medis</h4>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label">Diagnosa</label>
+                    <textarea class="form-control" name="diagnosa" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Resep</label>
+                    <textarea class="form-control" name="resep" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Catatan</label>
+                    <textarea class="form-control" name="catatan"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="{% url 'dashboard_dokter' %}" class="btn btn-secondary">Kembali</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

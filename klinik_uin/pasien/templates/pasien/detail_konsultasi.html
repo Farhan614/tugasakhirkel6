@@ -1,0 +1,407 @@
+{% extends 'base_pasien.html' %}
+{% load static %} 
+{% load humanize %} 
+{% block title %}Detail Konsultasi - {{ konsultasi.dokter.nama }}{% endblock %}
+
+{% block styles %}
+{{ block.super }} {# Mewarisi style dari base.html #}
+<style>
+    /* Modern Chat Interface with Green Theme */
+    .chat-box {
+        padding: 1.5rem;
+        height: 450px; 
+        overflow-y: auto; 
+        background-color: #f9fcfa; 
+        border-radius: 0.75rem; 
+        border: 1px solid rgba(25, 135, 84, 0.2);
+        margin-bottom: 1.5rem;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .chat-message {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-message.pasien {
+        align-items: flex-end; 
+    }
+    
+    .chat-message.dokter {
+        align-items: flex-start; 
+    }
+    
+    .chat-message .message-content {
+        display: inline-block;
+        padding: 0.8rem 1.2rem;
+        border-radius: 1.25rem; 
+        max-width: 75%; 
+        word-wrap: break-word; 
+        position: relative; 
+        line-height: 1.5;
+    }
+    
+    .chat-message.pasien .message-content {
+        background-color: #198754; 
+        color: white;
+        box-shadow: 0 2px 6px rgba(25, 135, 84, 0.2);
+        border-bottom-right-radius: 0.25rem;
+    }
+    
+    .chat-message.dokter .message-content {
+        background-color: white; 
+        color: #212529;
+        border: 1px solid rgba(25, 135, 84, 0.15);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        border-bottom-left-radius: 0.25rem;
+    }
+    
+    .chat-message .timestamp {
+        font-size: 0.75em; 
+        color: #6c757d; 
+        display: block;
+        margin-top: 0.4rem; 
+    }
+    
+    .chat-message.pasien .timestamp { text-align: right; }
+    .chat-message.dokter .timestamp { text-align: left; }
+
+    .timer {
+        color: #198754; 
+        font-weight: 500;
+    }
+    
+    .timer.text-danger {
+        color: #dc3545 !important;
+    }
+    
+    /* Subtle animation for new messages */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .chat-message {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    /* Custom scrollbar for chat box */
+    .chat-box::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .chat-box::-webkit-scrollbar-track {
+        background: rgba(25, 135, 84, 0.05);
+        border-radius: 10px;
+    }
+    
+    .chat-box::-webkit-scrollbar-thumb {
+        background: rgba(25, 135, 84, 0.2);
+        border-radius: 10px;
+    }
+    
+    .chat-box::-webkit-scrollbar-thumb:hover {
+        background: rgba(25, 135, 84, 0.3);
+    }
+    
+    /* Message input styling */
+    #isi_pesan {
+        border-color: rgba(25, 135, 84, 0.2);
+        transition: all 0.2s ease;
+    }
+    
+    #isi_pesan:focus {
+        border-color: rgba(25, 135, 84, 0.5);
+        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+    }
+    
+    /* Button styling */
+    .btn-success {
+        background-color: #198754;
+        border-color: #198754;
+    }
+    
+    .btn-success:hover {
+        background-color: #157347;
+        border-color: #146c43;
+    }
+    
+    .btn-outline-success {
+        color: #198754;
+        border-color: #198754;
+    }
+    
+    .btn-outline-success:hover {
+        background-color: #198754;
+        color: white;
+    }
+    
+    /* Info cards with subtle shadow */
+    .info-card {
+        background-color: #f9fcfa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        height: 100%;
+        transition: all 0.2s ease;
+    }
+    
+    .info-card:hover {
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.1);
+    }
+    
+    /* Label styling */
+    .info-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header with improved spacing and green accent -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0 text-success">Detail Konsultasi</h2>
+        <a href="{% url 'pasien:pasien_dashboard' %}" class="btn btn-outline-success">
+            <i class="bi bi-arrow-left me-2"></i> Kembali ke Dashboard
+        </a>
+    </div>
+
+    <!-- Main card with subtle shadow and clean design -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-success bg-opacity-10 border-bottom border-success border-opacity-25">
+            <h5 class="mb-0 text-success">Informasi Konsultasi</h5>
+        </div>
+        <div class="card-body p-4">
+            <!-- Information grid with elegant spacing -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <p class="info-label">Dokter</p>
+                        <p class="mb-0 fw-medium">{{ konsultasi.dokter.nama }}</p>
+                        <p class="text-success">{{ konsultasi.dokter.spesialisasi }}</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <p class="info-label">Tanggal Mulai</p>
+                        <p class="mb-0 fw-medium">{{ konsultasi.tanggal_konsultasi|date:"d M Y" }}</p>
+                        <p class="text-success">{{ konsultasi.tanggal_konsultasi|date:"H:i" }} WIB</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <p class="info-label">Status</p>
+                        <span class="badge 
+                            {% if konsultasi.status == 'Menunggu' %}bg-warning bg-opacity-25 text-warning
+                            {% elif konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %}bg-primary bg-opacity-25 text-primary
+                            {% elif konsultasi.status == 'Selesai' %}bg-success bg-opacity-25 text-success
+                            {% elif konsultasi.status == 'Dibatalkan' %}bg-danger bg-opacity-25 text-danger
+                            {% else %}bg-secondary bg-opacity-25 text-secondary
+                            {% endif %} px-3 py-2 rounded-pill fw-normal">
+                            {% if konsultasi.status == 'Menunggu' %}<i class="bi bi-clock me-1"></i>
+                            {% elif konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %}<i class="bi bi-chat-dots me-1"></i>
+                            {% elif konsultasi.status == 'Selesai' %}<i class="bi bi-check-circle me-1"></i>
+                            {% elif konsultasi.status == 'Dibatalkan' %}<i class="bi bi-x-circle me-1"></i>
+                            {% else %}<i class="bi bi-question-circle me-1"></i>
+                            {% endif %}
+                            {{ konsultasi.status }}
+                        </span>
+                    </div>
+                </div>
+                
+                {% if konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %}
+                <div class="col-md-6">
+                    <div class="info-card">
+                        <p class="info-label">Sisa Waktu</p>
+                        <p class="mb-0 d-flex align-items-center">
+                            <i class="bi bi-hourglass-split me-2 text-success"></i>
+                            <span id="timer" class="timer fs-5">Memuat...</span>
+                        </p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="mt-5">
+                <h5 class="text-success border-bottom border-success border-opacity-25 pb-2 mb-3">
+                    <i class="bi bi-chat-quote me-2"></i>Riwayat Percakapan
+                </h5>
+                
+                <div class="chat-box" id="chat-box">
+                    {% for pesan in konsultasi.pesan.all %}
+                        <div class="chat-message {% if pesan.pengirim|lower == 'pasien' %}pasien{% else %}dokter{% endif %}">
+                            <div class="message-content">
+                                {{ pesan.isi|linebreaksbr }}
+                            </div>
+                            <div class="timestamp">
+                                {% if pesan.pengirim|lower == 'pasien' %}
+                                    <i class="bi bi-person me-1"></i>
+                                {% else %}
+                                    <i class="bi bi-person-badge me-1"></i>
+                                {% endif %}
+                                {{ pesan.tanggal_kirim|date:"d M Y, H:i" }}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="text-center py-5">
+                            <div class="bg-success bg-opacity-10 rounded-circle p-3 d-inline-block mb-3">
+                                <i class="bi bi-chat-dots text-success fs-3"></i>
+                            </div>
+                            <p class="text-muted">Belum ada pesan dalam konsultasi ini.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {% if konsultasi.status != 'Selesai' and konsultasi.status != 'Dibatalkan' %}
+                <div class="mt-4">
+                    <form method="post" id="chat-form" class="bg-light bg-opacity-50 p-3 rounded">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <textarea name="isi_pesan" id="isi_pesan" class="form-control border-success border-opacity-25" 
+                                      rows="3" placeholder="Ketik pesan Anda di sini..." required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success px-4">
+                                <i class="bi bi-send me-2"></i> Kirim Pesan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <div class="alert border-0 bg-light mt-4 d-flex align-items-center p-3" role="alert">
+                    <div class="rounded-circle bg-success bg-opacity-25 p-2 me-3">
+                        <i class="bi bi-info-circle text-success"></i>
+                    </div>
+                    <div>Konsultasi ini telah selesai atau dibatalkan. Anda tidak dapat mengirim pesan lagi.</div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }} {# Mewarisi script dari base.html #}
+
+<script>
+    const chatBox = document.getElementById('chat-box');
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    const messageInput = document.getElementById('isi_pesan');
+    if (messageInput) {
+        messageInput.focus(); 
+    }
+
+    const chatForm = document.getElementById('chat-form');
+    if (chatForm) {
+        chatForm.addEventListener('submit', function() {
+            // Show subtle loading indicator
+            const submitBtn = this.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Mengirim...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    if (chatBox) {
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                }, 200);
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const messages = document.querySelectorAll('.chat-message');
+        messages.forEach((message, index) => {
+            message.style.animationDelay = `${index * 0.05}s`;
+        });
+    });
+</script>
+
+{% if konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %} 
+<script>
+    const sisaWaktu = parseInt("{{ sisa_waktu|default:'0' }}"); 
+    const timerElement = document.getElementById('timer');
+
+    let remainingTime = Math.max(0, sisaWaktu); 
+
+    function updateTimer() {
+        if (!timerElement) return; 
+
+        if (remainingTime <= 0) {
+            timerElement.textContent = 'Waktu Habis';
+            timerElement.classList.remove('text-danger', 'timer');
+            timerElement.classList.add('text-muted');
+            
+            const messageInput = document.getElementById('isi_pesan');
+            const submitButton = document.querySelector('#chat-form button[type="submit"]');
+            
+            if(messageInput) {
+                messageInput.disabled = true;
+                messageInput.placeholder = "Waktu konsultasi telah berakhir";
+            }
+            
+            if(submitButton) {
+                submitButton.disabled = true;
+            }
+            
+            return;
+        }
+
+        const hours = Math.floor(remainingTime / 3600);
+        const minutes = Math.floor((remainingTime % 3600) / 60);
+        const seconds = remainingTime % 60;
+
+        let timeString = '';
+        if (hours > 0) {
+            timeString += `${hours}:`;
+        }
+        timeString += `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        timerElement.textContent = timeString;
+        remainingTime--;
+
+        // Visual feedback based on remaining time
+        if (remainingTime < 300 && remainingTime > 0) { 
+            timerElement.classList.add('text-danger'); 
+            timerElement.classList.remove('text-muted', 'timer');
+            
+            // Pulsing animation when time is running out
+            if (remainingTime % 2 === 0) {
+                timerElement.style.transform = 'scale(1.05)';
+            } else {
+                timerElement.style.transform = 'scale(1)';
+            }
+        } else if (remainingTime > 0) {
+            timerElement.classList.remove('text-danger', 'text-muted');
+            timerElement.classList.add('timer');
+            timerElement.style.transform = 'scale(1)';
+        }
+
+        setTimeout(updateTimer, 1000); 
+    }
+
+    if (remainingTime > 0) {
+        updateTimer();
+    } else if (timerElement) {
+        timerElement.textContent = 'Waktu Habis';
+        timerElement.classList.add('text-muted');
+        timerElement.classList.remove('timer', 'text-danger');
+    }
+</script>
+{% endif %}
+{% endblock %}

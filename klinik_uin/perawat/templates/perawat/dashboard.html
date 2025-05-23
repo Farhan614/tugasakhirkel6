@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard Perawat - {{ nama_perawat }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-4">
+    <!-- Header -->
+    <div class="card border-0 shadow-sm mb-4 bg-white">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-1 text-success">Selamat Datang, {{ nama_perawat }}</h3>
+                    <p class="text-muted mb-0"><i class="bi bi-hospital me-2"></i>{{ poli.nama }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs border-bottom-0 mb-0" id="perawatTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active text-success" id="hari-ini-tab" data-bs-toggle="tab"
+                data-bs-target="#janji_temu_hari_ini" type="button" role="tab" aria-controls="janji_temu_hari_ini"
+                aria-selected="true">
+                <i class="bi bi-calendar-check me-1"></i> Belum Diperiksa
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link text-success" id="selesai-tab" data-bs-toggle="tab"
+                data-bs-target="#janji_temu_selesai" type="button" role="tab" aria-controls="janji_temu_selesai"
+                aria-selected="false">
+                <i class="bi bi-check-circle me-1"></i> Sudah Diperiksa
+            </button>
+        </li>
+    </ul>
+
+    <!-- Content -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <div class="tab-content" id="perawatTabContent">
+                <!-- Tab: Belum Diperiksa -->
+                <div class="tab-pane fade show active" id="janji_temu_hari_ini" role="tabpanel"
+                    aria-labelledby="hari-ini-tab">
+                    <h5 class="fw-bold text-success mb-3"><i class="bi bi-calendar-day me-2"></i>Janji Temu Belum
+                        Diperiksa ({{ today|date:"d M Y" }})</h5>
+                    {% if janji_temu_hari_ini %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle table-borderless">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Antrian</th>
+                                    <th>Pasien</th>
+                                    <th>Dokter</th>
+                                    <th>Waktu</th>
+                                    <th>Keluhan</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for j in janji_temu_hari_ini %}
+                                <tr class="border-bottom">
+                                    <td><span class="badge bg-success text-white">{{ j.kode_antrian }}</span></td>
+                                    <td><strong>{{ j.pasien.nama }}</strong></td>
+                                    <td>{{ j.dokter.nama }}</td>
+                                    <td>{{ j.tanggal|date:"H:i" }}</td>
+                                    <td>{{ j.keluhan_utama|truncatewords:5 }}</td>
+                                    <td>
+                                        <span
+                                            class="badge {% if j.status == 'Menunggu' %}bg-warning{% elif j.status == 'Dipanggil' %}bg-success{% else %}bg-secondary{% endif %}">
+                                            {{ j.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'perawat:periksa_pasien' j.id %}"
+                                            class="btn btn-sm btn-primary">
+                                            <i class="bi bi-stethoscope me-1"></i> Periksa
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">Tidak ada pasien yang perlu diperiksa hari ini.</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tab: Sudah Diperiksa -->
+                <div class="tab-pane fade" id="janji_temu_selesai" role="tabpanel" aria-labelledby="selesai-tab">
+                    <h5 class="fw-bold text-success mb-3"><i class="bi bi-check-circle me-2"></i>Janji Temu Sudah
+                        Diperiksa ({{ today|date:"d M Y" }})</h5>
+                    {% if janji_temu_selesai %}
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle table-borderless">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Antrian</th>
+                                    <th>Pasien</th>
+                                    <th>Dokter</th>
+                                    <th>Waktu</th>
+                                    <th>Keluhan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for j in janji_temu_selesai %}
+                                <tr class="border-bottom">
+                                    <td><span class="badge bg-secondary text-white">{{ j.kode_antrian }}</span></td>
+                                    <td><strong>{{ j.pasien.nama }}</strong></td>
+                                    <td>{{ j.dokter.nama }}</td>
+                                    <td>{{ j.tanggal|date:"H:i" }}</td>
+                                    <td>{{ j.keluhan_utama|truncatewords:5 }}</td>
+                                    <td>
+                                        <span
+                                            class="badge {% if j.status == 'Menunggu' %}bg-warning{% elif j.status == 'Dipanggil' %}bg-success{% else %}bg-secondary{% endif %}">
+                                            {{ j.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="bi bi-check-circle text-muted" style="font-size: 3rem;"></i>
+                        <p class="text-muted mt-3">Belum ada pasien yang diperiksa hari ini.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

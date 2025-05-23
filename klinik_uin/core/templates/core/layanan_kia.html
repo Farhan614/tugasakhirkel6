@@ -1,0 +1,257 @@
+{% extends 'base_public.html' %}
+{% load static %}
+
+{% block title %}Layanan Poli KIA (Kesehatan Ibu dan Anak) - Klinik Pratama UIN Raden Intan Lampung{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS library for scroll animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --pale-green: #e8f5e9;
+            --accent-green: #1b5e20;
+            --text-dark: #263238;
+            --text-medium: #546e7a;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background-color: #fff;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--pale-green), #ffffff);
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 2px;
+        }
+
+        .content-section {
+            padding: 3rem 0 5rem;
+        }
+
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+            padding: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 2px;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+            transition: var(--transition);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-item strong {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .service-item i {
+            color: var(--light-green);
+            margin-right: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .service-item:hover i {
+            transform: rotate(15deg);
+        }
+
+        .service-item:hover {
+            padding-left: 0.5rem;
+            background-color: var(--pale-green);
+            border-radius: 6px;
+        }
+        
+        .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--pale-green);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+        
+        .content-card:hover .icon-circle {
+            background-color: var(--primary-green);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .final-note {
+            background-color: var(--pale-green);
+            border-left: 4px solid var(--light-green);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 2rem;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="page-header text-center" data-aos="fade-down">
+        <div class="container">
+            <h1>Layanan Poli KIA (Kesehatan Ibu dan Anak)</h1>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="content-card" data-aos="fade-up">
+                        <div class="text-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-baby-carriage"></i>
+                            </div>
+                            <h2 class="section-title">Tentang Layanan KIA</h2>
+                        </div>
+                        
+                        <p>
+                            Layanan kesehatan ibu dan anak adalah upaya di bidang kesehatan yang menyangkut pelayanan dan pemeliharaan kesehatan bagi ibu hamil, ibu menyusui, bayi, dan anak balita. Tujuan dari layanan ini adalah untuk mencapai kemampuan hidup sehat melalui peningkatan derajat kesehatan yang optimal bagi ibu dan anak.
+                        </p>
+                        
+                        <div class="mt-5 mb-4">
+                            <h3 class="h5 text-center mb-4" style="color: var(--primary-green);">Jenis Layanan Kesehatan Ibu dan Anak</h3>
+                            
+                            <ul class="list-unstyled">
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="100">
+                                    <i class="fas fa-stethoscope"></i>
+                                    <strong>Pelayanan antenatal:</strong> Meliputi anamnesis dan pemantauan ibu dan janin dengan seksama untuk menilai perkembangan yang normal.
+                                </li>
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="150">
+                                    <i class="fas fa-hospital-user"></i>
+                                    <strong>Pelayanan persalinan:</strong> Meliputi pendataan persalinan oleh tenaga kesehatan dan di fasilitas kesehatan.
+                                </li>
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="200">
+                                    <i class="fas fa-user-nurse"></i>
+                                    <strong>Pelayanan pasca persalinan:</strong> Meliputi pemantauan dan perawatan ibu pasca persalinan serta pemeriksaan dan perawatan bayi baru lahir.
+                                </li>
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="250">
+                                    <i class="fas fa-syringe"></i>
+                                    <strong>Pelayanan imunisasi:</strong> Meliputi pemberian vaksinasi kepada bayi dan anak balita untuk mencegah penyakit tertentu.
+                                </li>
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="300">
+                                    <i class="fas fa-apple-alt"></i>
+                                    <strong>Pelayanan gizi:</strong> Meliputi penilaian status gizi ibu dan anak serta pemberian edukasi gizi yang tepat.
+                                </li>
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="350">
+                                    <i class="fas fa-child"></i>
+                                    <strong>Pelayanan tumbuh kembang:</strong> Meliputi pemantauan dan evaluasi perkembangan fisik, mental, dan sosial anak.
+                                </li>
+                                <li class="service-item" data-aos="fade-right" data-aos-delay="400">
+                                    <i class="fas fa-heart"></i>
+                                    <strong>Pelayanan kesehatan reproduksi:</strong> Meliputi pelayanan keluarga berencana dan konseling mengenai kesehatan reproduksi.
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="final-note" data-aos="fade-up">
+                            <p class="mb-0">
+                                <i class="fas fa-leaf me-2" style="color: var(--primary-green);"></i>
+                                Pelayanan kesehatan ibu dan anak menjadi prioritas utama dalam pembangunan kesehatan di Indonesia, dengan tujuan untuk meningkatkan kualitas hidup dan kesejahteraan ibu dan anak.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <!-- AOS library for scroll animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Add smooth scroll behavior for all links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

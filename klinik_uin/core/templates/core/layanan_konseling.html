@@ -1,0 +1,249 @@
+{% extends 'base_public.html' %}
+{% load static %}
+
+{% block title %}Layanan Poli Konseling - Klinik Pratama UIN Raden Intan Lampung{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS library for scroll animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --pale-green: #e8f5e9;
+            --accent-green: #1b5e20;
+            --text-dark: #263238;
+            --text-medium: #546e7a;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background-color: #fff;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--pale-green), #ffffff);
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 2px;
+        }
+
+        .content-section {
+            padding: 3rem 0 5rem;
+        }
+
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+            padding: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 2px;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+            transition: var(--transition);
+        }
+
+        .benefit-item:last-child {
+            border-bottom: none;
+        }
+
+        .benefit-item strong {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .benefit-item i {
+            color: var(--light-green);
+            margin-right: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .benefit-item:hover i {
+            transform: rotate(15deg);
+        }
+
+        .benefit-item:hover {
+            padding-left: 0.5rem;
+            background-color: var(--pale-green);
+            border-radius: 6px;
+        }
+        
+        .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--pale-green);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+        
+        .content-card:hover .icon-circle {
+            background-color: var(--primary-green);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .final-note {
+            background-color: var(--pale-green);
+            border-left: 4px solid var(--light-green);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 2rem;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="page-header text-center" data-aos="fade-down">
+        <div class="container">
+            <h1>Layanan Poli Konseling</h1>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="content-card" data-aos="fade-up">
+                        <div class="text-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h2 class="section-title">Tentang Layanan Konseling</h2>
+                        </div>
+                        
+                        <p>
+                            Layanan konseling adalah proses pemberian bantuan melalui diskusi tatap muka untuk individu yang mengalami masalah tertentu. Tujuan dari layanan konseling adalah membantu individu memahami kondisi dirinya sendiri, lingkungannya, dan permasalahan yang dihadapi. Melalui konseling, individu dapat mengurangi penilaian negatif terhadap diri sendiri, memperbaiki gaya hidup, dan mencapai perubahan positif dalam kehidupan mereka.
+                        </p>
+                        
+                        <div class="mt-5 mb-4">
+                            <h3 class="h5 text-center mb-4" style="color: var(--primary-green);">Tujuan Umum Layanan Konseling</h3>
+                            
+                            <ul class="list-unstyled">
+                                <li class="benefit-item" data-aos="fade-right" data-aos-delay="100">
+                                    <i class="fas fa-lightbulb"></i>
+                                    <strong>Membantu individu memahami diri sendiri:</strong> Konseling membantu individu untuk mengenali dan memahami emosi, pikiran, dan perilaku mereka. Dengan pemahaman yang lebih baik tentang diri sendiri, individu dapat mengatasi masalah dengan lebih efektif.
+                                </li>
+                                <li class="benefit-item" data-aos="fade-right" data-aos-delay="200">
+                                    <i class="fas fa-hand-holding-heart"></i>
+                                    <strong>Menyediakan dukungan emosional:</strong> Konseling memberikan tempat yang aman bagi individu untuk berbagi perasaan, kekhawatiran, dan masalah yang mereka hadapi. Dukungan emosional dari seorang konselor dapat membantu individu merasa didengar, dipahami, dan tidak sendirian dalam menghadapi masalah mereka.
+                                </li>
+                                <li class="benefit-item" data-aos="fade-right" data-aos-delay="300">
+                                    <i class="fas fa-puzzle-piece"></i>
+                                    <strong>Mengembangkan strategi penyelesaian masalah:</strong> Konseling membantu individu mengembangkan keterampilan dan strategi untuk mengatasi masalah yang dihadapi. Konselor dapat membantu individu melihat situasi dari sudut pandang yang berbeda, mengeksplorasi pilihan yang ada, dan mengambil langkah-langkah konkret untuk mencapai solusi.
+                                </li>
+                                <li class="benefit-item" data-aos="fade-right" data-aos-delay="400">
+                                    <i class="fas fa-chart-line"></i>
+                                    <strong>Meningkatkan kualitas hidup:</strong> Melalui konseling, individu dapat meningkatkan kualitas hidup mereka dengan mengatasi masalah yang mengganggu, memperbaiki hubungan interpersonal, dan mencapai tujuan pribadi yang lebih baik.
+                                </li>
+                                <li class="benefit-item" data-aos="fade-right" data-aos-delay="500">
+                                    <i class="fas fa-balance-scale"></i>
+                                    <strong>Memberikan dukungan dalam pengambilan keputusan:</strong> Konseling dapat membantu individu dalam mengambil keputusan yang penting dalam hidup mereka. Konselor dapat membantu individu mempertimbangkan berbagai faktor, mengeksplorasi konsekuensi yang mungkin, dan membuat keputusan yang sesuai dengan nilai-nilai dan tujuan mereka.
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="final-note" data-aos="fade-up">
+                            <p class="mb-0">
+                                <i class="fas fa-leaf me-2" style="color: var(--primary-green);"></i>
+                                Layanan konseling dapat bermanfaat bagi individu dalam berbagai aspek kehidupan, termasuk kesehatan mental, hubungan, karier, dan pengembangan pribadi.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <!-- AOS library for scroll animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Add smooth scroll behavior for all links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,398 @@
+{% extends 'base_pasien.html' %}
+{% load static %} 
+{% load math_filters %}
+{% load humanize %} 
+
+{% block title %}Dashboard Pasien - {{ pasien.nama }}{% endblock %}
+
+{% block content %}
+<!-- Header with gradient background -->
+<div class="card shadow-sm mb-4 border-0">
+    <div class="card-body bg-gradient" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="mb-0 text-success">Selamat Datang, {{ pasien.nama }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navigasi Tab (Pills) dengan desain yang ditingkatkan -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body p-0">
+        <ul class="nav nav-pills nav-fill p-2" id="pasienTab" role="tablist">
+            <li class="nav-item m-1" role="presentation">
+                <button class="nav-link active rounded-pill px-3 py-2" id="buat-janji-tab" data-bs-toggle="pill" data-bs-target="#buat_janji" type="button" role="tab">
+                    <i class="bi bi-calendar-plus me-1"></i> Buat Janji
+                </button>
+            </li>
+            <li class="nav-item m-1" role="presentation">
+                <button class="nav-link rounded-pill px-3 py-2" id="status-tab" data-bs-toggle="pill" data-bs-target="#status" type="button" role="tab">
+                    <i class="bi bi-card-list me-1"></i> Status Janji
+                </button>
+            </li>
+            <li class="nav-item m-1" role="presentation">
+                <button class="nav-link rounded-pill px-3 py-2" id="konsultasi-online-tab" data-bs-toggle="pill" data-bs-target="#konsultasi_online" type="button" role="tab">
+                    <i class="bi bi-camera-video me-1"></i> Konsultasi
+                </button>
+            </li>
+            <li class="nav-item m-1" role="presentation">
+                <button class="nav-link rounded-pill px-3 py-2" id="riwayat-tab" data-bs-toggle="pill" data-bs-target="#riwayat_konsultasi" type="button" role="tab">
+                    <i class="bi bi-clock-history me-1"></i> Riwayat
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="tab-content" id="pasienTabContent">
+
+    <!-- == Tab Buat Janji == -->
+    <div class="tab-pane fade show active" id="buat_janji" role="tabpanel">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success bg-opacity-10 border-bottom-0">
+                <h5 class="mb-0 text-success"><i class="bi bi-calendar-plus me-2"></i>Buat Janji Temu Baru</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" name="buat_janji" value="1">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select name="poli" id="poli-janji" class="form-select " onchange="filterDokterJanji()" required>
+                                    <option value="">-- Pilih Poli --</option>
+                                    {% for poli in poli_list %}
+                                    <option value="{{ poli.id }}">{{ poli.nama }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="poli-janji">Poliklinik</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select name="dokter" id="dokter-janji" class="form-select" required disabled>
+                                    <option value="">-- Pilih Poli terlebih dahulu --</option>
+                                    {% for dokter in dokters %}
+                                    <option value="{{ dokter.id }}" data-poli="{{ dokter.poli.id }}" style="display: none;">
+                                        {{ dokter.nama }} ({{ dokter.spesialisasi }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                                <label for="dokter-janji">Dokter</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="datetime-local" name="tanggal" id="tanggal-janji" class="form-control" required>
+                                <label for="tanggal-janji">Tanggal & Waktu Janji</label>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-floating mb-3">
+                                <textarea name="keluhan" id="keluhan-janji" class="form-control" style="height: 120px" placeholder="Jelaskan keluhan utama Anda..." required></textarea>
+                                <label for="keluhan-janji">Keluhan Utama</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <button type="submit" class="btn btn-success px-4">
+                            <i class="bi bi-send me-2"></i>Kirim Permintaan Janji
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- == Tab Status Janji == -->
+    <div class="tab-pane fade" id="status" role="tabpanel">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success bg-opacity-10 border-bottom-0">
+                <h5 class="mb-0 text-success"><i class="bi bi-card-list me-2"></i>Status Janji Temu Anda</h5>
+            </div>
+            <div class="card-body">
+                {% if janji_temu %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Kode</th>
+                                <th>Dokter</th>
+                                <th>Poli</th>
+                                <th>Tanggal</th>
+                                <th>Keluhan</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for j in janji_temu %}
+                            <tr>
+                                <td><strong>{{ j.kode_antrian|default:"-" }}</strong></td>
+                                <td>{{ j.dokter.nama }}</td>
+                                <td><span class="badge rounded-pill bg-success bg-opacity-10 text-success">{{ j.dokter.poli.nama }}</span></td>
+                                <td>{{ j.tanggal|date:"d M Y, H:i" }}</td>
+                                <td>{{ j.keluhan_utama|truncatewords:10 }}</td>
+                                <td>
+                                    {% if j.status|lower == 'selesai' %}
+                                        <span class="badge rounded-pill bg-success">{{ j.status }}</span>
+                                    {% elif j.status|lower == 'dibatalkan' %}
+                                        <span class="badge rounded-pill bg-danger">{{ j.status }}</span>
+                                    {% elif j.status|lower == 'menunggu konfirmasi' or j.status|lower == 'pending' %}
+                                        <span class="badge rounded-pill bg-warning text-dark">{{ j.status }}</span>
+                                    {% elif j.status|lower == 'dijadwalkan' or j.status|lower == 'aktif' %}
+                                        <span class="badge rounded-pill bg-primary">{{ j.status }}</span>
+                                    {% else %}
+                                        <span class="badge rounded-pill bg-secondary">{{ j.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-light border-start border-success border-4 d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle text-success flex-shrink-0 me-3 fs-4"></i>
+                    <div>
+                        Anda belum memiliki janji temu yang aktif atau dijadwalkan. Buat janji baru di tab "Buat Janji".
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- == Tab Konsultasi Online == -->
+    <div class="tab-pane fade" id="konsultasi_online" role="tabpanel">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success bg-opacity-10 border-bottom-0">
+                <h5 class="mb-0 text-success"><i class="bi bi-camera-video me-2"></i>Konsultasi Online</h5>
+            </div>
+            <div class="card-body text-center p-5">
+                <img src="{% static 'images/consultation.svg' %}" alt="Konsultasi Online" class="img-fluid mb-4" style="max-height: 180px;">
+                <h4 class="mb-3">Konsultasi Online via Chat</h4>
+                <p class="card-text text-muted mb-4">Berkonsultasi dengan dokter pilihan Anda secara daring melalui platform chat kami. Lihat riwayat konsultasi Anda di tab "Riwayat".</p>
+                <a href="{% url 'pasien:konsultasi_online' %}" class="btn btn-success btn-lg px-4">
+                    <i class="bi bi-chat-dots-fill me-2"></i>Mulai Konsultasi Baru
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- == Tab Riwayat == -->
+    <div class="tab-pane fade" id="riwayat_konsultasi" role="tabpanel">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success bg-opacity-10 border-bottom-0">
+                <h5 class="mb-0 text-success"><i class="bi bi-clock-history me-2"></i>Riwayat Medis Anda</h5>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-3" id="riwayatNestedTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active text-success" id="konsultasi-tab" data-bs-toggle="tab" data-bs-target="#konsultasi-riwayat" type="button" role="tab">
+                            <i class="bi bi-chat-text me-1"></i>Konsultasi Online
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link text-success" id="resep-tab" data-bs-toggle="tab" data-bs-target="#resep-riwayat" type="button" role="tab">
+                            <i class="bi bi-file-medical me-1"></i>Resep Obat
+                        </button>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="riwayatNestedTabContent">
+                    <!-- Konsultasi History Tab -->
+                    <div class="tab-pane fade show active" id="konsultasi-riwayat" role="tabpanel">
+                        {% if konsultasi %}
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Dokter</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for k in konsultasi %}
+                                    <tr>
+                                        <td>{{ k.tanggal_konsultasi|date:"d M Y, H:i" }}</td>
+                                        <td>{{ k.dokter.nama }} <span class="badge rounded-pill bg-success bg-opacity-10 text-success">{{ k.dokter.spesialisasi }}</span></td>
+                                        <td>
+                                            {% if k.status|lower == 'selesai' %}
+                                                <span class="badge rounded-pill bg-success">{{ k.status }}</span>
+                                            {% elif k.status|lower == 'dibatalkan' %}
+                                                <span class="badge rounded-pill bg-danger">{{ k.status }}</span>
+                                            {% elif k.status|lower == 'menunggu respons' or k.status|lower == 'pending' %}
+                                               <span class="badge rounded-pill bg-warning text-dark">{{ k.status }}</span>
+                                            {% elif k.status|lower == 'aktif' or k.status|lower == 'direspons' %}
+                                               <span class="badge rounded-pill bg-primary">{{ k.status }}</span>
+                                            {% else %}
+                                               <span class="badge rounded-pill bg-secondary">{{ k.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'pasien:detail_konsultasi_pasien' k.id %}" class="btn btn-sm btn-outline-success rounded-pill">
+                                                <i class="bi bi-search me-1"></i>Detail
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                            <div class="alert alert-light border-start border-success border-4 d-flex align-items-center" role="alert">
+                                <i class="bi bi-info-circle text-success flex-shrink-0 me-3 fs-4"></i>
+                                <div>
+                                     Tidak ada riwayat konsultasi online ditemukan. Mulai konsultasi baru melalui tab "Konsultasi Online".
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Resep History Tab -->
+                    <div class="tab-pane fade" id="resep-riwayat" role="tabpanel">
+                        {% if resep_list %}
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Tanggal Resep</th>
+                                            <th>Dokter Pemberi</th>
+                                            <th>Status</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for resep in resep_list %}
+                                        <tr>
+                                            <td>{{ resep.tanggal_dibuat|date:"d M Y" }}</td>
+                                            <td>{{ resep.dokter.nama }}</td>
+                                            <td>
+                                                {% if resep.status|lower == 'selesai' or resep.status|lower == 'sudah diambil' %}
+                                                    <span class="badge rounded-pill bg-success">{{ resep.status }}</span>
+                                                {% elif resep.status|lower == 'siap diambil' %}
+                                                    <span class="badge rounded-pill bg-info text-dark">{{ resep.status }}</span>
+                                                {% elif resep.status|lower == 'diproses' %}
+                                                    <span class="badge rounded-pill bg-primary">{{ resep.status }}</span>
+                                                {% elif resep.status|lower == 'dibatalkan' %}
+                                                    <span class="badge rounded-pill bg-danger">{{ resep.status }}</span>
+                                                {% else %}
+                                                    <span class="badge rounded-pill bg-secondary">{{ resep.status }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'pasien:detail_resep_pasien' resep.id %}" class="btn btn-sm btn-outline-success rounded-pill">
+                                                    <i class="bi bi-file-earmark-text me-1"></i>Detail
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-light border-start border-success border-4 d-flex align-items-center" role="alert">
+                                <i class="bi bi-info-circle text-success flex-shrink-0 me-3 fs-4"></i>
+                                <div>
+                                     Belum ada riwayat resep obat.
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    // Filter dokter khusus untuk form Buat Janji
+    function filterDokterJanji() {
+        const poliId = document.getElementById('poli-janji').value;
+        const dokterSelect = document.getElementById('dokter-janji');
+        const options = dokterSelect.options;
+        const placeholderOption = dokterSelect.querySelector('option[value=""]');
+
+        let foundDokter = false;
+        dokterSelect.value = ''; // Reset pilihan
+
+        // Enable/disable dokter select
+        if (poliId === '') {
+            dokterSelect.disabled = true;
+            placeholderOption.textContent = '-- Pilih Poli terlebih dahulu --';
+        } else {
+            dokterSelect.disabled = false;
+            placeholderOption.textContent = '-- Pilih Dokter --';
+        }
+
+        // Loop opsi dokter (skip placeholder)
+        for (let i = 1; i < options.length; i++) {
+            const option = options[i];
+            const optionPoliId = option.getAttribute('data-poli');
+
+            if (poliId !== '' && optionPoliId === poliId) {
+                option.style.display = '';
+                foundDokter = true;
+            } else {
+                option.style.display = 'none';
+            }
+        }
+
+        // Update placeholder jika tidak ada dokter
+        if (poliId !== '' && !foundDokter) {
+            placeholderOption.textContent = '-- Tidak ada dokter di poli ini --';
+            dokterSelect.disabled = true;
+        } else if (poliId !== '' && foundDokter) {
+             dokterSelect.disabled = false; 
+             placeholderOption.textContent = '-- Pilih Dokter --';
+        }
+    }
+
+    // Panggil filter saat halaman dimuat untuk inisialisasi dropdown dokter janji
+    document.addEventListener('DOMContentLoaded', function() {
+        // Periksa apakah elemen dropdown dokter ada sebelum memanggil filter
+        if (document.getElementById('poli-janji') && document.getElementById('dokter-janji')) {
+             filterDokterJanji();
+        }
+
+        // Handle tab activation to remember last tab or go to a specific tab via URL hash
+        const hash = window.location.hash;
+        if (hash) {
+            const triggerEl = document.querySelector('.nav-pills button[data-bs-target="' + hash + '"]');
+            if (triggerEl) {
+                const tab = new bootstrap.Tab(triggerEl);
+                tab.show();
+            }
+        }
+
+        // Update URL hash when tab changes
+        const tabElements = document.querySelectorAll('.nav-pills button[data-bs-toggle="pill"]');
+        tabElements.forEach(el => {
+            el.addEventListener('shown.bs.tab', event => {
+                if(window.location.hash !== event.target.dataset.bsTarget) {
+                    history.replaceState(null, null, event.target.dataset.bsTarget);
+                }
+            });
+        });
+        
+        // Add form validation
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    });
+</script>
+{% endblock %}

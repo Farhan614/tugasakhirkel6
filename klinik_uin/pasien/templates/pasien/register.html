@@ -1,0 +1,492 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>SILANTA - Register Pasien</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3b8159;
+            --accent-color: #1e98e9;
+            --gradient-start: #3b815d;
+            --gradient-end: #1adc81;
+            --success-color: #28a745;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .register-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .brand {
+            padding: 1rem 0;
+        }
+        
+        .brand img {
+            max-height: 50px;
+        }
+        
+        .register-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .form-control, .form-select {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            background-color: #f8f9fa;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.15);
+        }
+        
+        .register-form {
+            padding: 2rem;
+        }
+        
+        .form-title {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        .form-text {
+            color: #6c757d;
+        }
+        
+        .login-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .login-link:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .required-field::after {
+            content: "*";
+            color: var(--accent-color);
+            margin-left: 3px;
+        }
+        
+        /* Progress Steps Styling */
+        .register-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .register-steps::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            width: 33.333%;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .step-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6c757d;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .step.active .step-text {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .step.completed .step-circle {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+        
+        /* Tab Content Styling */
+        .tab-pane {
+            display: none;
+        }
+        
+        .tab-pane.active {
+            display: block;
+        }
+        
+        .tab-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container register-container">
+        <div class="row">
+            <div class="col-12 text-center brand">
+                <img src="{% static 'images/logo.png' %}" alt="Magenta Logo" class="img-fluid">
+            </div>
+        </div>
+        
+        <div class="register-card">
+            <div class="register-form">
+                <h3 class="form-title mb-2">Pendaftaran Pasien Baru</h3>
+                <p class="form-text mb-4">Silahkan isi formulir berikut dengan data diri Anda</p>
+                
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} mb-4">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                
+                <!-- Progress Steps -->
+                <div class="register-steps">
+                    <div class="step active" id="step-1">
+                        <div class="step-circle">1</div>
+                        <div class="step-text">Akun</div>
+                    </div>
+                    <div class="step" id="step-2">
+                        <div class="step-circle">2</div>
+                        <div class="step-text">Data Pribadi</div>
+                    </div>
+                    <div class="step" id="step-3">
+                        <div class="step-circle">3</div>
+                        <div class="step-text">Pembayaran</div>
+                    </div>
+                </div>
+                
+                <!-- Form with Tabs -->
+                <form method="post" class="needs-validation" id="registerForm" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Tab 1: Account Information -->
+                    <div class="tab-pane active" id="tab-1">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required-field">Username</label>
+                                <input type="text" name="username" class="form-control" required>
+                                <div class="invalid-feedback">Username harus diisi</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required-field">Password</label>
+                                <input type="password" name="password" class="form-control" required>
+                                <div class="invalid-feedback">Password harus diisi</div>
+                            </div>
+                        </div>
+                        <div class="tab-footer">
+                            <div></div> <!-- Empty div for flex spacing -->
+                            <button type="button" class="btn btn-primary next-btn" data-current="1" data-next="2">
+                                Selanjutnya <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 2: Personal Data -->
+                    <div class="tab-pane" id="tab-2">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required-field">NIK</label>
+                                <input type="text" name="nik" class="form-control" required>
+                                <div class="invalid-feedback">NIK harus diisi</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required-field">Nama Lengkap</label>
+                                <input type="text" name="nama" class="form-control" required>
+                                <div class="invalid-feedback">Nama lengkap harus diisi</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label required-field">Telepon</label>
+                                <input type="text" name="telepon" class="form-control" required>
+                                <div class="invalid-feedback">Nomor telepon harus diisi</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Alamat</label>
+                                <textarea name="alamat" class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Jenis Kelamin</label>
+                                    <select name="jenis_kelamin" class="form-select">
+                                        <option value="">Pilih Jenis Kelamin</option>
+                                        <option value="L">Laki-laki</option>
+                                        <option value="P">Perempuan</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tanggal Lahir</label>
+                                    <input type="date" name="tanggal_lahir" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-footer">
+                            <button type="button" class="btn btn-outline-primary prev-btn" data-current="2" data-prev="1">
+                                <i class="fas fa-arrow-left me-2"></i> Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary next-btn" data-current="2" data-next="3">
+                                Selanjutnya <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tab 3: Payment Information -->
+                    <div class="tab-pane" id="tab-3">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Metode Pembayaran</label>
+                                <select name="metode_pembayaran" class="form-select" id="metode_pembayaran">
+                                    <option value="">Pilih Metode Pembayaran</option>
+                                    <option value="Tunai">Tunai</option>
+                                    <option value="Asuransi">Asuransi</option>
+                                    <option value="Kartu Kredit">Kartu Kredit</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row asuransi-fields" style="display: none;">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nama Asuransi</label>
+                                <input type="text" name="nama_asuransi" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nomor Asuransi</label>
+                                <input type="text" name="nomor_asuransi" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <p class="text-muted small">
+                                    <span class="text-danger">*</span> Menandakan kolom yang wajib diisi
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="tab-footer">
+                            <button type="button" class="btn btn-outline-primary prev-btn" data-current="3" data-prev="2">
+                                <i class="fas fa-arrow-left me-2"></i> Sebelumnya
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                Daftar Sekarang <i class="fas fa-check ms-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="text-center mt-4">
+                    <p class="mb-0">Sudah punya akun? <a href="{% url 'pasien:login_pasien' %}" class="login-link">Login di sini</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Navigation
+            const nextButtons = document.querySelectorAll('.next-btn');
+            const prevButtons = document.querySelectorAll('.prev-btn');
+            
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentTab = button.getAttribute('data-current');
+                    const nextTab = button.getAttribute('data-next');
+                    
+                    // Validate current tab fields before proceeding
+                    if (validateTabFields(currentTab)) {
+                        changeTab(currentTab, nextTab);
+                    }
+                });
+            });
+            
+            prevButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentTab = button.getAttribute('data-current');
+                    const prevTab = button.getAttribute('data-prev');
+                    changeTab(currentTab, prevTab);
+                });
+            });
+            
+            function changeTab(currentTab, newTab) {
+                // Update tabs
+                document.getElementById('tab-' + currentTab).classList.remove('active');
+                document.getElementById('tab-' + newTab).classList.add('active');
+                
+                // Update progress steps
+                document.getElementById('step-' + currentTab).classList.remove('active');
+                document.getElementById('step-' + newTab).classList.add('active');
+                
+                // Mark previous steps as completed
+                for (let i = 1; i < newTab; i++) {
+                    document.getElementById('step-' + i).classList.add('completed');
+                    const stepCircle = document.querySelector('#step-' + i + ' .step-circle');
+                    stepCircle.innerHTML = '<i class="fas fa-check"></i>';
+                }
+            }
+            
+            function validateTabFields(tabNumber) {
+                const tabPane = document.getElementById('tab-' + tabNumber);
+                const requiredFields = tabPane.querySelectorAll('[required]');
+                let isValid = true;
+                
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                return isValid;
+            }
+            
+            // Show/hide insurance fields based on payment method
+            const metodePembayaran = document.getElementById('metode_pembayaran');
+            const asuransiFields = document.querySelector('.asuransi-fields');
+            
+            metodePembayaran.addEventListener('change', () => {
+                if (metodePembayaran.value === 'Asuransi') {
+                    asuransiFields.style.display = 'flex';
+                } else {
+                    asuransiFields.style.display = 'none';
+                }
+            });
+            
+            // Form submission validation
+            const registerForm = document.getElementById('registerForm');
+            
+            registerForm.addEventListener('submit', function(event) {
+                // Validate all required fields before submission
+                const allRequiredFields = registerForm.querySelectorAll('[required]');
+                let formIsValid = true;
+                
+                allRequiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('is-invalid');
+                        formIsValid = false;
+                        
+                        // Find which tab contains this field and show it
+                        const tabPane = field.closest('.tab-pane');
+                        const tabId = tabPane.id.split('-')[1];
+                        
+                        if (!tabPane.classList.contains('active')) {
+                            // Find current active tab
+                            const activeTab = document.querySelector('.tab-pane.active');
+                            const activeTabId = activeTab.id.split('-')[1];
+                            
+                            // Switch to tab containing the invalid field
+                            changeTab(activeTabId, tabId);
+                        }
+                    }
+                });
+                
+                if (!formIsValid) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

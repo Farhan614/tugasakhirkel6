@@ -1,0 +1,544 @@
+{% extends 'base_public.html' %}
+{% load static %}
+
+{% block title %}Klinik Pratama UIN Raden Intan Lampung{% endblock %}
+
+{% block styles %}
+{{ block.super }} {# Mempertahankan style dari base_public.html #}
+<!-- Add AOS library for scroll animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+<!-- Add custom Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-green: #2E7D32;
+        --light-green: #81C784;
+        --dark-green: #1B5E20;
+        --accent-green: #4CAF50;
+        --pale-green: #E8F5E9;
+        --transition-speed: 0.4s;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--pale-green) 0%, #f8f9fa 100%);
+        padding: 6rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('{% static "images/pattern.svg" %}');
+        background-size: cover;
+        opacity: 0.05;
+        z-index: 0;
+    }
+
+    .hero-section .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-section h1 {
+        font-weight: 700;
+        color: var(--primary-green);
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .hero-section h1::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 0;
+        width: 80px;
+        height: 4px;
+        background: var(--accent-green);
+        border-radius: 2px;
+    }
+
+    @media (max-width: 767px) {
+        .hero-section h1::after {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+
+    .hero-section p {
+        font-size: 1.1rem;
+        color: #5a5a5a;
+        margin-bottom: 1.8rem;
+        line-height: 1.7;
+    }
+
+    .hero-image-container {
+        position: relative;
+    }
+
+    .hero-image-container img {
+        max-height: 450px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .hero-image-container img:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-image-container::before {
+        content: "";
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        bottom: 0;
+        left: 20px;
+        border: 2px solid var(--light-green);
+        border-radius: 12px;
+        z-index: -1;
+        opacity: 0.6;
+        transform: translateY(10px);
+    }
+
+    .btn-custom-primary {
+        background-color: var(--primary-green);
+        border-color: var(--primary-green);
+        color: white;
+        font-weight: 500;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        transition: all var(--transition-speed);
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+    }
+
+    .btn-custom-primary:hover {
+        background-color: var(--dark-green);
+        border-color: var(--dark-green);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.3);
+    }
+
+    .btn-custom-outline {
+        background-color: transparent;
+        border: 2px solid var(--primary-green);
+        color: var(--primary-green);
+        font-weight: 500;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        transition: all var(--transition-speed);
+    }
+
+    .btn-custom-outline:hover {
+        background-color: var(--primary-green);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(46, 125, 50, 0.2);
+    }
+
+    .cta-section {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #f8f9fa 0%, var(--pale-green) 100%);
+        position: relative;
+    }
+
+    .cta-section h2 {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--primary-green);
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+        padding-bottom: 15px;
+    }
+
+    .cta-section h2::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: var(--accent-green);
+        border-radius: 2px;
+    }
+
+    .cta-section p {
+        font-size: 1.15rem;
+        color: #5a5a5a;
+        margin-bottom: 2.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-images {
+        margin-bottom: 3rem;
+    }
+
+    .cta-image-wrapper {
+        position: relative;
+        margin: 0 1.5rem;
+        transition: all var(--transition-speed);
+    }
+
+    .cta-image-wrapper:hover {
+        transform: translateY(-8px);
+    }
+
+    .cta-image-wrapper img {
+        max-width: 200px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        transition: box-shadow var(--transition-speed);
+    }
+
+    .cta-image-wrapper:hover img {
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .cta-image-caption {
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--primary-green);
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    /* Floating animation for elements */
+    @keyframes float {
+        0% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+
+        100% {
+            transform: translateY(0);
+        }
+    }
+
+    .float-animation {
+        animation: float 4s ease-in-out infinite;
+    }
+
+    /* Pulse animation for buttons */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4);
+        }
+
+        70% {
+            box-shadow: 0 0 0 15px rgba(76, 175, 80, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+        }
+    }
+
+    .pulse-animation {
+        animation: pulse 2s infinite;
+    }
+
+    /* Responsiveness */
+    @media (max-width: 767px) {
+        .hero-section {
+            padding: 4rem 0;
+        }
+
+        .hero-section .row {
+            flex-direction: column-reverse;
+        }
+
+        .hero-section .text-lg-start {
+            text-align: center !important;
+            margin-top: 2rem;
+        }
+
+        .cta-images {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cta-image-wrapper {
+            margin: 1rem 0;
+        }
+
+        .hero-image-container::before {
+            display: none;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center justify-content-between g-5">
+            <!-- Text Column -->
+            <div class="col-lg-6 text-lg-start" data-aos="fade-right" data-aos-duration="1000">
+                <h1 class="display-5">Klinik Pratama UIN Raden Intan Lampung</h1>
+                <p>
+                    Klinik UIN Raden Intan Lampung adalah fasilitas kesehatan yang berada di Universitas Islam Negeri
+                    Raden Intan Lampung. Klinik ini menyediakan layanan kesehatan yang terbuka untuk umum, tidak hanya
+                    bagi sivitas akademika UIN Raden Intan Lampung.
+                </p>
+                <p>
+                    Klinik UIN Raden Intan Lampung memiliki tim dokter dan tenaga kesehatan yang profesional dan
+                    berpengalaman. Kami senantiasa memberikan pelayanan yang ramah, sopan, dan kompeten kepada setiap
+                    pasien.
+                </p>
+                <div class="d-grid gap-3 d-sm-flex justify-content-center justify-content-lg-start">
+                    <a href="{% url 'pasien:register_pasien' %}" class="btn btn-custom-primary pulse-animation">Daftar
+                        SILATAN</a>
+                    <a href="{% url 'pasien:login_pasien' %}" class="btn btn-custom-outline">Login</a>
+                </div>
+            </div>
+            <!-- Image Column -->
+            <div class="col-lg-5 text-center hero-image-container" data-aos="fade-left" data-aos-duration="1000"
+                data-aos-delay="200">
+                <img src="{% static 'images/klinik_foto_utama.png' %}" class="img-fluid"
+                    alt="Foto Klinik UIN Raden Intan Lampung">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <!-- Main heading - centered above the content -->
+                <div class="text-center mb-5" data-aos="fade-down" data-aos-duration="800">
+                    <h2 class="text-success fw-bold text-uppercase mb-3"
+                        style="font-size: 2.2rem; letter-spacing: 1px;">
+                        Bantu Kami Untuk Melayani Anda Lebih Baik
+                    </h2>
+                    <div class="divider bg-success rounded mx-auto mb-3" style="height: 4px; width: 80px;"></div>
+                </div>
+
+                <!-- Content card with improved layout -->
+                <div class="cta-card bg-white shadow-lg rounded-4 p-4 p-lg-5 position-relative overflow-hidden">
+                    <!-- Background decoration -->
+                    <div class="position-absolute"
+                        style="top: 0; right: 0; width: 180px; height: 180px; background-color: rgba(46, 125, 50, 0.08); border-radius: 0 0 0 100%;">
+                    </div>
+                    <div class="position-absolute"
+                        style="bottom: 0; left: 0; width: 120px; height: 120px; background-color: rgba(46, 125, 50, 0.05); border-radius: 0 100% 0 0;">
+                    </div>
+
+                    <!-- Content row with new proportions -->
+                    <div class="row g-4 align-items-center">
+                        <!-- QR Code Column - Smaller -->
+                        <div class="col-md-3" data-aos="fade-right" data-aos-duration="800">
+                            <div class="qr-container position-relative mx-auto" style="max-width: 200px;">
+                                <!-- Green border around QR -->
+                                <div class="position-relative border-success border-3 rounded-4 p-2"
+                                    style="border-style: solid;">
+                                    <img src="{% static 'images/qr.png' %}" alt="QR Code Kritik Saran"
+                                        class="img-fluid">
+
+                                    <!-- URL label below QR -->
+                                    <div class="url-badge position-absolute start-50 translate-middle-x bg-success text-white px-3 py-2 rounded-pill"
+                                        style="bottom: -15px; white-space: nowrap; font-size: 0.85rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            fill="currentColor" class="bi bi-search me-1" viewBox="0 0 16 16">
+                                            <path
+                                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                                        </svg>
+                                        bit.ly/SKP_KPUINRIL
+                                    </div>
+                                </div>
+
+                                <!-- Scan me button -->
+                                <div class="scan-button bg-success text-white px-4 py-2 rounded-pill mx-auto mt-4 d-inline-block"
+                                    style="font-size: 0.9rem; font-weight: 500;">
+                                    Scan Me
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Staff Photo Column - Larger and more dominant -->
+                        <div class="col-md-6" data-aos="zoom-in" data-aos-duration="800">
+                            <div class="staff-photo-container position-relative">
+                                <div class="photo-frame p-2 border border-2 border-success rounded-4 position-relative">
+                                    <img src="{% static 'images/foto2.png' %}" alt="Foto Pelayanan"
+                                        class="img-fluid rounded-3 shadow" style="width: 100%; object-fit: cover;">
+
+                                    <!-- Overlay with slight darkening gradient -->
+                                    <div class="position-absolute top-0 start-0 w-100 h-100 rounded-3"
+                                        style="background: linear-gradient(to bottom, rgba(0,0,0,0) 70%, rgba(0,0,0,0.3) 100%);">
+                                    </div>
+                                </div>
+
+                                <!-- Service label - larger and more prominent -->
+                                <div class="service-badge position-absolute start-50 translate-middle-x bg-success text-white px-5 py-2 rounded-pill"
+                                    style="bottom: -15px; white-space: nowrap; font-weight: 600; font-size: 1.1rem; letter-spacing: 0.5px;">
+                                    Sampaikan Kritik dan Saran Anda
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text Column - Smaller -->
+                        <div class="col-md-3" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                            <div class="cta-text text-center text-md-start">
+                                <p class="text-success fw-bold mb-3" style="font-size: 1.2rem;">
+                                    Dukung kami
+                                </p>
+                                <p class="text-muted mb-4">
+                                    untuk dapat memberikan pelayanan yang lebih baik kepada Anda dan seluruh
+                                    masyarakat.
+                                </p>
+                                <a href="#" class="btn btn-outline-success rounded-pill px-4 py-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                        class="bi bi-chat-text me-2" viewBox="0 0 16 16">
+                                        <path
+                                            d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z" />
+                                        <path
+                                            d="M4 5.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zM4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8zm0 2.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5z" />
+                                    </svg>
+                                    Kirim Saran
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile version - Stacked layout for small screens -->
+                <div class="d-md-none mt-4">
+                    <p class="text-center text-muted fst-italic">
+                        Pindai kode QR untuk menyampaikan kritik dan saran Anda secara langsung.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Mobile features section -->
+<section class="features-section py-5 bg-white">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <!-- Feature 1 -->
+            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-duration="800">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-light-success rounded-circle mb-3 mx-auto"
+                            style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background-color: var(--pale-green);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary-green)"
+                                class="bi bi-calendar-check" viewBox="0 0 16 16">
+                                <path
+                                    d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                <path
+                                    d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title mb-3" style="color: var(--primary-green);">Jadwal Fleksibel</h4>
+                        <p class="card-text text-muted">Layanan dengan jadwal yang fleksibel untuk kebutuhan kesehatan
+                            Anda</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-light-success rounded-circle mb-3 mx-auto"
+                            style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background-color: var(--pale-green);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary-green)"
+                                class="bi bi-heart-pulse" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 2.748v-.717A1 1 0 0 0 7 1H5a1 1 0 0 0-1 1v.735c0 .381.128.743.352 1.031-.168.329-.278.681-.278 1.054v.152c0 1.432 1.056 2.636 2.424 2.897.177.052.337.137.516.161V8.3c.193.03.354.129.527.185.273.081.548.134.823.134.384 0 .736-.107 1.032-.278.275-.168.541-.35.787-.551.37.455.787.856 1.281 1.108-.754.291-1.392.98-1.6 1.815-.117.485-.08.971.103 1.432.232.57.638 1.038 1.17 1.329.565.31 1.463.412 2.069.789.286.178.537.403.719.684.185.282.302.618.33.966.036.39-.023.795-.2 1.14-.226.424-.56.775-.96 1.016-.64.384-1.476.52-2.229.48-.65-.038-1.28-.242-1.855-.585-.664-.398-1.18-.993-1.403-1.713-.204-.67-.148-1.408.098-2.048.246-.643.714-1.178 1.253-1.556.289-.214.59-.37.913-.423l-.168-.822c-.726.173-1.363.555-1.857 1.068A3.871 3.871 0 0 0 6.256 11c-.224.013-.449-.012-.663-.072-.652-.18-1.18-.7-1.377-1.343-.16-.532-.125-1.122.122-1.621.292-.561.79-.968 1.358-1.099l-.22-.946c-.404.095-.796.292-1.12.603-.326.312-.583.704-.704 1.137a2.35 2.35 0 0 0-.048 1.304c.153.597.54 1.106 1.05 1.396.355.204.76.293 1.156.231a2.784 2.784 0 0 0-.346-.483 3.413 3.413 0 0 0-.74-.63c-.311-.189-.65-.319-1.007-.319-.023 0-.047 0-.07.002-.23.016-.445.11-.604.289-.088.106-.154.23-.164.372-.01.142.021.284.091.402.42.118.124.2.226.214L8 2.748Zm1.303 2.176a2.37 2.37 0 0 1-.333.079l-.158.79a1.8 1.8 0 0 0-.276-.094 1.95 1.95 0 0 0-.431-.057l.17-.827c.238.05.474.119.696.217l.332-.108ZM6.83 3.989l-.203-.827A2.892 2.892 0 0 1 7.689 3l.157.8a2.287 2.287 0 0 0-1.016.189Z" />
+                                <path
+                                    d="M8 3.5a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L6.5 5l-.549.317a.5.5 0 1 0 .5.866l.549-.317V6.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L8.5 5l.549-.317a.5.5 0 1 0-.5-.866l-.549.317zm-2 4.5a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L4.5 9l-.549.317a.5.5 0 1 0 .5.866l.549-.317V10.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L6.5 9l.549-.317a.5.5 0 1 0-.5-.866l-.549.317zm5 0a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L10.5 9l-.549.317a.5.5 0 1 0 .5.866l.549-.317V10.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L12.5 9l.549-.317a.5.5 0 1 0-.5-.866l-.549.317z" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title mb-3" style="color: var(--primary-green);">Layanan Berkualitas</h4>
+                        <p class="card-text text-muted">Tim medis profesional siap memberikan perawatan terbaik untuk
+                            Anda</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="400">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-light-success rounded-circle mb-3 mx-auto"
+                            style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background-color: var(--pale-green);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="var(--primary-green)"
+                                class="bi bi-people" viewBox="0 0 16 16">
+                                <path
+                                    d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4" />
+                            </svg>
+                        </div>
+                        <h4 class="card-title mb-3" style="color: var(--primary-green);">Terbuka Untuk Umum</h4>
+                        <p class="card-text text-muted">Melayani kebutuhan kesehatan masyarakat umum, tidak hanya
+                            sivitas akademika</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+{{ block.super }} {# Mempertahankan script dari base_public.html #}
+<!-- Add AOS library for animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<!-- Initialize AOS -->
+<script>
+    // Initialize AOS animation library
+    AOS.init({
+        once: false,
+        mirror: true,
+        offset: 120,
+        easing: 'ease-out-cubic'
+    });
+
+    // Add more custom interactions if needed
+    document.addEventListener('DOMContentLoaded', function () {
+        // Optional: Add smooth scrolling for all anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId !== "#") {
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Optional: Check if specific SVG pattern file exists, if not, create one
+        // This is a fallback if the pattern SVG doesn't exist
+        const patternImg = new Image();
+        patternImg.src = '{% static "images/pattern.svg" %}';
+        patternImg.onerror = function () {
+            console.log("Pattern SVG not found - you may want to create one for the background texture");
+        };
+    });
+</script>
+{% endblock %}

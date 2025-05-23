@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard Dokter - Klinik Universitas{% endblock %}
+
+{% block content %}
+<h1>Dashboard Dokter - {{ nama_dokter }}</h1>
+<div class="mb-3">
+    <h4>Riwayat Pasien</h4>
+    <p>Total pasien yang pernah diperiksa: {{ total_riwayat_pasien }}</p>
+    <h4>Jadwal Praktik</h4>
+    <p>{{ jadwal_praktik|join:", " }}</p>
+    <a href="{% url 'edit_foto_dokter' %}" class="btn btn-info btn-sm">Edit Foto Profil</a>
+</div>
+
+<!-- Tabel Jadwal Hari Ini -->
+<h3>Jadwal Hari Ini</h3>
+<table class="table table-striped mb-4">
+    <thead>
+        <tr>
+            <th>Pasien</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for janji in jadwal_hari_ini %}
+        <tr>
+            <td>{{ janji.pasien.nama }}</td>
+            <td>{{ janji.tanggal|date:"H:i" }}</td>
+            <td>{{ janji.status }}</td>
+            <td>
+                {% if janji.status == "Menunggu" %}
+                <a href="{% url 'panggil_pasien' janji.id %}" class="btn btn-primary">Panggil</a>
+                {% endif %}
+                {% if janji.status == "Dipanggil" %}
+                <a href="{% url 'rekam_medis' janji.id %}" class="btn btn-success">Periksa</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Tidak ada jadwal hari ini.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Tabel Jadwal Mendatang -->
+<h3>Jadwal Mendatang</h3>
+<table class="table table-striped mb-4">
+    <thead>
+        <tr>
+            <th>Pasien</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for janji in jadwal_mendatang %}
+        <tr>
+            <td>{{ janji.pasien.nama }}</td>
+            <td>{{ janji.tanggal|date:"D, d M Y H:i" }}</td>
+            <td>{{ janji.status }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Tidak ada jadwal mendatang.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Tabel Riwayat -->
+<h3>Riwayat Pasien</h3>
+<table class="table table-striped mb-4">
+    <thead>
+        <tr>
+            <th>Pasien</th>
+            <th>Tanggal</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for janji in riwayat %}
+        <tr>
+            <td>{{ janji.pasien.nama }}</td>
+            <td>{{ janji.tanggal|date:"D, d M Y H:i" }}</td>
+            <td>{{ janji.status }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Belum ada riwayat.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Tabel Antrian Hari Ini -->
+<h3>Antrian Hari Ini</h3>
+<table class="table table-striped mb-4">
+    <thead>
+        <tr>
+            <th>Kode Antrian</th>
+            <th>Nama Pasien</th>
+            <th>Poli</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for antrian in antrian_hari_ini %}
+        <tr>
+            <td>{{ antrian.kode_antrian }}</td>
+            <td>{{ antrian.pasien.nama }}</td>
+            <td>{{ antrian.poli.nama }}</td>
+            <td>{{ antrian.status }}</td>
+            <td>
+                {% if antrian.status == "Menunggu" %}
+                <a href="{% url 'panggil_antrian' antrian.id %}" class="btn btn-primary">Panggil</a>
+                {% elif antrian.status == "Dipanggil" %}
+                <a href="{% url 'rekam_medis' antrian_id=antrian.id %}" class="btn btn-success">Periksa</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">Tidak ada antrian hari ini.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

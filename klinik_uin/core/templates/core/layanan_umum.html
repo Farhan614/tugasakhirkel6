@@ -1,0 +1,255 @@
+{% extends 'base_public.html' %}
+{% load static %}
+
+{% block title %}Layanan Poli Umum - Klinik Pratama UIN Raden Intan Lampung{% endblock %}
+
+{% block styles %}
+    {{ block.super }}
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS library for scroll animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --pale-green: #e8f5e9;
+            --accent-green: #1b5e20;
+            --text-dark: #263238;
+            --text-medium: #546e7a;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            color: var(--text-dark);
+            background-color: #fff;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--pale-green), #ffffff);
+            padding: 4rem 0;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-header h1 {
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header h1:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 2px;
+        }
+
+        .content-section {
+            padding: 3rem 0 5rem;
+        }
+
+        .content-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+            padding: 2.5rem;
+            transition: var(--transition);
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--light-green);
+            border-radius: 2px;
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+        }
+
+        .service-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            border-left: 4px solid var(--light-green);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--pale-green);
+        }
+
+        .service-card h3 {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-card h3 i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--light-green);
+            transition: var(--transition);
+        }
+
+        .service-card:hover h3 i {
+            transform: rotate(15deg);
+        }
+        
+        .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: var(--pale-green);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+        
+        .content-card:hover .icon-circle {
+            background-color: var(--primary-green);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .final-note {
+            background-color: var(--pale-green);
+            border-left: 4px solid var(--light-green);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 2rem;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="page-header text-center" data-aos="fade-down">
+        <div class="container">
+            <h1>Layanan Poli Umum</h1>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="content-card" data-aos="fade-up">
+                        <div class="text-center mb-4">
+                            <div class="icon-circle">
+                                <i class="fas fa-clinic-medical"></i>
+                            </div>
+                            <h2 class="section-title">Tentang Poli Umum</h2>
+                        </div>
+                        
+                        <p>
+                            Poli Umum adalah salah satu jenis layanan di puskesmas atau rumah sakit yang memberikan pelayanan kedokteran umum kepada pasien. Layanan ini mencakup pemeriksaan kesehatan, pengobatan, dan perawatan untuk berbagai kondisi medis umum. Berikut adalah beberapa informasi mengenai layanan Poli Umum:
+                        </p>
+                        
+                        <div class="mt-5 mb-4">
+                            <div class="service-card" data-aos="fade-right" data-aos-delay="100">
+                                <h3><i class="fas fa-heartbeat"></i> Pemeriksaan Kesehatan</h3>
+                                <p class="mb-0">Poli Umum menyediakan pemeriksaan kesehatan rutin untuk mendiagnosis dan mengatasi masalah kesehatan umum seperti flu, demam, sakit kepala, dan gangguan pencernaan.</p>
+                            </div>
+                            
+                            <div class="service-card" data-aos="fade-right" data-aos-delay="200">
+                                <h3><i class="fas fa-pills"></i> Pengobatan</h3>
+                                <p class="mb-0">Poli Umum memberikan pengobatan untuk penyakit umum seperti infeksi saluran pernapasan, penyakit kulit, gangguan pencernaan ringan, dan nyeri ringan.</p>
+                            </div>
+                            
+                            <div class="service-card" data-aos="fade-right" data-aos-delay="300">
+                                <h3><i class="fas fa-file-medical"></i> Rujukan</h3>
+                                <p class="mb-0">Jika diperlukan, dokter di Poli Umum dapat merujuk pasien ke spesialis atau poliklinik lain untuk penanganan lebih lanjut jika kondisi membutuhkan perhatian khusus.</p>
+                            </div>
+                            
+                            <div class="service-card" data-aos="fade-right" data-aos-delay="400">
+                                <h3><i class="fas fa-comment-medical"></i> Konsultasi Medis</h3>
+                                <p class="mb-0">Pasien dapat berkonsultasi dengan dokter di Poli Umum untuk mendapatkan nasihat medis, informasi tentang penyakit atau kondisi tertentu, serta saran mengenai gaya hidup sehat.</p>
+                            </div>
+                            
+                            <div class="service-card" data-aos="fade-right" data-aos-delay="500">
+                                <h3><i class="fas fa-shield-virus"></i> Pelayanan Pencegahan</h3>
+                                <p class="mb-0">Poli Umum juga memberikan pelayanan pencegahan seperti imunisasi, tes kesehatan, dan edukasi kesehatan untuk mencegah penyakit dan mempromosikan kesehatan.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="final-note" data-aos="fade-up">
+                            <p class="mb-0">
+                                <i class="fas fa-leaf me-2" style="color: var(--primary-green);"></i>
+                                Layanan Poli Umum sangat penting dalam sistem pelayanan kesehatan karena memberikan akses mudah dan terjangkau bagi masyarakat umum untuk mendapatkan perawatan medis dasar.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
+
+{% block scripts %}
+    {{ block.super }}
+    <!-- AOS library for scroll animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+            
+            // Add smooth scroll behavior for all links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+{% endblock %}

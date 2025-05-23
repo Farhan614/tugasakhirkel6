@@ -1,0 +1,248 @@
+{% extends 'base_pasien.html' %}
+{% load math_filters %}
+{% load humanize %}
+
+{% block title %}Detail Resep - {{ resep.pasien.nama }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <!-- Back button and title -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0 fw-bold text-primary">Detail Resep</h2>
+    <a href="{% url 'pasien:pasien_dashboard' %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+      <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+    </a>
+  </div>
+
+  <!-- Main content card with shadow -->
+  <div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-header bg-white py-3 border-bottom">
+      <h5 class="card-title mb-0 fw-bold">
+        <i class="bi bi-file-earmark-medical me-2 text-primary"></i>Informasi Resep
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="row g-4">
+        <!-- Left column -->
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-person-badge text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Dokter</p>
+              <p class="fw-medium mb-0">{{ resep.dokter.nama }} <span class="text-secondary">({{ resep.dokter.spesialisasi }})</span></p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Right column -->
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-calendar-date text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Tanggal Dibuat</p>
+              <p class="fw-medium mb-0">{{ resep.tanggal_dibuat|date:"d M Y, H:i" }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Status section -->
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-clipboard-check text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Status Resep</p>
+              <p class="mb-0">
+                <span class="badge rounded-pill 
+                  {% if resep.status == 'Menunggu' %}bg-warning text-dark
+                  {% elif resep.status == 'Diproses' %}bg-primary
+                  {% elif resep.status == 'Selesai' %}bg-success
+                  {% endif %}">
+                  <i class="bi bi-circle-fill me-1 small"></i>{{ resep.status }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Payment status -->
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-credit-card text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Status Pembayaran</p>
+              <p class="mb-0">
+                <span class="badge rounded-pill 
+                  {% if resep.status_pembayaran == 'Belum Dibayar' %}bg-danger
+                  {% elif resep.status_pembayaran == 'Sedang Diproses' %}bg-warning text-dark
+                  {% elif resep.status_pembayaran == 'Dibayar' %}bg-success
+                  {% elif resep.status_pembayaran == 'Gagal' %}bg-danger
+                  {% endif %}">
+                  <i class="bi bi-circle-fill me-1 small"></i>{{ resep.status_pembayaran }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Notes section -->
+        <div class="col-12 mt-2">
+          <div class="d-flex mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-chat-left-text text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Catatan Resep</p>
+              <p class="mb-0">{{ resep.catatan|default:"Tidak ada catatan"|linebreaksbr }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Medication list card -->
+  <div class="card shadow-sm border-0 rounded-3 mb-4">
+    <div class="card-header bg-white py-3 border-bottom">
+      <h5 class="card-title mb-0 fw-bold">
+        <i class="bi bi-capsule me-2 text-primary"></i>Daftar Obat
+      </h5>
+    </div>
+    <div class="card-body">
+      {% if resep.detail.all %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Nama Obat</th>
+              <th class="text-center">Jumlah</th>
+              <th class="text-end">Harga Satuan</th>
+              <th class="text-end">Total Harga</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for detail in resep.detail.all %}
+            <tr>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="bg-light rounded p-1 me-2 d-none d-sm-inline-flex">
+                    <i class="bi bi-capsule text-primary"></i>
+                  </span>
+                  <span>{{ detail.obat.nama }}</span>
+                </div>
+              </td>
+              <td class="text-center">{{ detail.jumlah }}</td>
+              <td class="text-end">Rp {{ detail.obat.harga|floatformat:0|intcomma }}</td>
+              {% with total_harga=detail.jumlah|multiply:detail.obat.harga %}
+                <td class="text-end">Rp {{ total_harga|floatformat:0|intcomma }}</td>
+              {% endwith %}
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr class="table-light">
+              <td colspan="3" class="text-end fw-bold">Total Keseluruhan:</td>
+              <td class="text-end fw-bold">Rp {{ total_resep|floatformat:0|intcomma }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      {% if resep.status == 'Selesai' and resep.status_pembayaran == 'Belum Dibayar' %}
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+        <a href="{% url 'pasien:payment' resep.id %}" class="btn btn-primary rounded-pill px-4">
+          <i class="bi bi-credit-card me-2"></i>Bayar Sekarang
+        </a>
+      </div>
+      {% endif %}
+      {% else %}
+      <div class="alert alert-light border-1 shadow-sm d-flex align-items-center" role="alert">
+        <i class="bi bi-info-circle text-primary me-3 fs-4"></i>
+        <div>Tidak ada detail obat dalam resep ini.</div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Pharmacist information card -->
+  <div class="card shadow-sm border-0 rounded-3">
+    <div class="card-header bg-white py-3 border-bottom">
+      <h5 class="card-title mb-0 fw-bold">
+        <i class="bi bi-box2 me-2 text-primary"></i>Informasi Pengeluaran Obat
+      </h5>
+    </div>
+    <div class="card-body">
+      {% if pengeluaran %}
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-person text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Apoteker</p>
+              <p class="fw-medium mb-0">{{ pengeluaran.apoteker.nama }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-calendar-check text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Tanggal Pengeluaran</p>
+              <p class="fw-medium mb-0">{{ pengeluaran.tanggal_pengeluaran|date:"d M Y, H:i" }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-12">
+          <div class="d-flex mb-3">
+            <div class="flex-shrink-0">
+              <span class="bg-light rounded-circle p-2 d-inline-flex">
+                <i class="bi bi-chat-left-text text-primary"></i>
+              </span>
+            </div>
+            <div class="flex-grow-1 ms-3">
+              <p class="text-muted small mb-0">Catatan Pengeluaran</p>
+              <p class="mb-0">{{ pengeluaran.catatan|default:"Tidak ada catatan"|linebreaksbr }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-warning d-flex align-items-center shadow-sm border-0" role="alert">
+        <i class="bi bi-exclamation-triangle me-3 fs-4"></i>
+        <div>Obat untuk resep ini belum dikeluarkan dari apotek.</div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{# Script spesifik halaman jika diperlukan #}
+{% endblock %}

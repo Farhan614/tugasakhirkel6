@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+{% load static %} 
+{% load humanize %} 
+
+{% block title %}Respons Konsultasi - {{ konsultasi.pasien.nama }}{% endblock %}
+
+{% block styles %}
+{{ block.super }}
+<style>
+    :root {
+        --green-primary: #2E7D32;
+        --green-light: #E8F5E9;
+        --green-hover: #1B5E20;
+        --border-radius: 12px;
+    }
+    
+    .page-header {
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .card {
+        border: none;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+    
+    .card-header {
+        background-color: white;
+        border-bottom: 1px solid #eaeaea;
+        padding: 1.25rem 1.5rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .info-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .info-value {
+        font-weight: 500;
+        margin-bottom: 1.5rem;
+    }
+    
+    .chat-box {
+        padding: 1.5rem;
+        height: 500px;
+        overflow-y: auto;
+        background-color: #fafafa;
+        border-radius: var(--border-radius);
+        border: 1px solid #eaeaea;
+        margin-bottom: 1.5rem;
+    }
+    
+    .chat-message {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .chat-message.pasien {
+        align-items: flex-start;
+    }
+    
+    .chat-message.pasien .message-content {
+        background-color: white;
+        color: #333;
+        border: 1px solid #eaeaea;
+    }
+    
+    .chat-message.pasien .timestamp { 
+        text-align: left; 
+    }
+    
+    .chat-message.dokter {
+        align-items: flex-end;
+    }
+    
+    .chat-message.dokter .message-content {
+        background-color: var(--green-primary);
+        color: white;
+    }
+    
+    .chat-message.dokter .timestamp { 
+        text-align: right; 
+    }
+    
+    .chat-message .message-content {
+        display: inline-block;
+        padding: 0.8rem 1.2rem;
+        border-radius: 16px;
+        max-width: 75%;
+        word-wrap: break-word;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .chat-message .timestamp {
+        font-size: 0.75em;
+        color: #9e9e9e;
+        display: block;
+        margin-top: 0.4rem;
+    }
+    
+    .section-divider {
+        height: 1px;
+        background-color: #eaeaea;
+        margin: 2rem 0;
+    }
+    
+    .section-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+        color: #333;
+    }
+    
+    .timer-container {
+        display: inline-flex;
+        align-items: center;
+        background-color: #f5f5f5;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+    }
+    
+    .timer {
+        font-weight: 600;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .timer.warning {
+        color: #f44336;
+    }
+    
+    .timer-icon {
+        margin-right: 0.5rem;
+        color: var(--green-primary);
+    }
+    
+    .empty-chat {
+        padding: 3rem 0;
+        text-align: center;
+    }
+    
+    .empty-chat i {
+        font-size: 3rem;
+        color: #e0e0e0;
+        margin-bottom: 1rem;
+    }
+    
+    .empty-chat p {
+        color: #9e9e9e;
+    }
+    
+    .btn-primary {
+        background-color: var(--green-primary);
+        border-color: var(--green-primary);
+    }
+    
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--green-hover);
+        border-color: var(--green-hover);
+    }
+    
+    .btn-outline-secondary {
+        color: #666;
+        border-color: #ddd;
+    }
+    
+    .btn-outline-secondary:hover {
+        background-color: #f5f5f5;
+        color: #333;
+    }
+    
+    textarea.form-control {
+        border-radius: 12px;
+        border-color: #eaeaea;
+        padding: 1rem;
+        resize: none;
+    }
+    
+    textarea.form-control:focus {
+        border-color: var(--green-primary);
+        box-shadow: 0 0 0 0.15rem rgba(46, 125, 50, 0.15);
+    }
+    
+    .badge {
+        padding: 0.5em 0.8em;
+        border-radius: 50px;
+        font-weight: 500;
+    }
+    
+    .badge.bg-primary {
+        background-color: var(--green-primary) !important;
+    }
+    
+    .badge.bg-warning {
+        background-color: #FBC02D !important;
+    }
+    
+    .badge.bg-success {
+        background-color: #43A047 !important;
+    }
+    
+    .badge.bg-danger {
+        background-color: #E53935 !important;
+    }
+    
+    .status-container {
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .patient-info-card {
+        background-color: var(--green-light);
+        border-radius: var(--border-radius);
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .patient-info-card .patient-name {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .patient-info-item {
+        display: flex;
+        margin-bottom: 0.5rem;
+    }
+    
+    .patient-info-label {
+        width: 120px;
+        color: #666;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+    }
+    
+    .send-button {
+        border-radius: 50px;
+        padding: 0.5rem 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-header d-flex justify-content-between align-items-center">
+    <h2 class="mb-0">Respons Konsultasi</h2>
+    <a href="{% url 'dokter:dashboard_dokter' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+    </a>
+</div>
+
+<div class="patient-info-card">
+    <div class="patient-name">{{ konsultasi.pasien.nama }}</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="patient-info-item">
+                <span class="patient-info-label">Tanggal Mulai:</span>
+                <span>{{ konsultasi.tanggal_konsultasi|date:"d M Y, H:i" }}</span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="patient-info-item">
+                <span class="patient-info-label">Status:</span>
+                <div class="status-container">
+                    {% if konsultasi.status == 'Menunggu' %}
+                        <span class="badge bg-warning text-dark">{{ konsultasi.status }}</span>
+                    {% elif konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %}
+                        <span class="badge bg-primary">{{ konsultasi.status }}</span>
+                    {% elif konsultasi.status == 'Selesai' %}
+                        <span class="badge bg-success">{{ konsultasi.status }}</span>
+                    {% elif konsultasi.status == 'Dibatalkan' %}
+                        <span class="badge bg-danger">{{ konsultasi.status }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">{{ konsultasi.status }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %}
+        <div class="patient-info-item mt-2">
+            <span class="patient-info-label">Sisa Waktu:</span>
+            <div class="timer-container">
+                <i class="bi bi-clock timer-icon"></i>
+                <span id="timer" class="timer">Memuat...</span>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <span>Riwayat Percakapan</span>
+    </div>
+    <div class="card-body">
+        <div class="chat-box" id="chat-box">
+            {% for pesan in konsultasi.pesan.all %}
+                <div class="chat-message {% if pesan.pengirim|lower == 'pasien' %}pasien{% else %}dokter{% endif %}">
+                    <div class="message-content">
+                        {{ pesan.isi|linebreaksbr }}
+                    </div>
+                    <div class="timestamp">{{ pesan.tanggal_kirim|date:"d M Y, H:i" }}</div>
+                </div>
+            {% empty %}
+                <div class="empty-chat">
+                    <i class="bi bi-chat-dots"></i>
+                    <p>Belum ada pesan dalam konsultasi ini.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if konsultasi.status != 'Selesai' and konsultasi.status != 'Dibatalkan' %}
+            <div class="section-divider"></div>
+            <div class="section-title">Kirim Pesan Balasan</div>
+            <form method="post" id="chat-form">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <textarea name="isi_pesan" id="isi_pesan" class="form-control" rows="3" placeholder="Ketik balasan Anda di sini..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary send-button">
+                    <i class="bi bi-send me-1"></i> Kirim Balasan
+                </button>
+            </form>
+        {% else %}
+            <div class="alert alert-info mt-4" role="alert">
+                <i class="bi bi-info-circle me-1"></i> Konsultasi ini telah selesai atau dibatalkan. Anda tidak dapat mengirim pesan lagi.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+
+<script>
+    // Scroll chat box to bottom
+    const chatBox = document.getElementById('chat-box');
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>
+
+{% if konsultasi.status == 'Direspons' or konsultasi.status == 'Aktif' %}
+    <script>
+        const sisaWaktu = parseInt("{{ sisa_waktu|default:'0' }}");
+        const timerElement = document.getElementById('timer');
+        const messageInput = document.getElementById('isi_pesan');
+        const submitButton = document.querySelector('#chat-form button[type="submit"]');
+        
+        let remainingTime = Math.max(0, sisaWaktu);
+        
+        function updateTimer() {
+            if (!timerElement) return;
+            
+            if (remainingTime <= 0) {
+                timerElement.textContent = 'Waktu Habis';
+                timerElement.classList.remove('warning');
+                timerElement.classList.add('text-muted');
+                if(messageInput) messageInput.disabled = true;
+                if(submitButton) submitButton.disabled = true;
+                return;
+            }
+            
+            const hours = Math.floor(remainingTime / 3600);
+            const minutes = Math.floor((remainingTime % 3600) / 60);
+            const seconds = remainingTime % 60;
+            
+            let timeString = '';
+            if (hours > 0) timeString += `${hours}:`;
+            timeString += `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            
+            timerElement.textContent = timeString;
+            remainingTime--;
+            
+            if (remainingTime < 300 && remainingTime > 0) { // < 5 menit
+                timerElement.classList.add('warning');
+            } else if (remainingTime > 0) {
+                timerElement.classList.remove('warning');
+            }
+            
+            setTimeout(updateTimer, 1000);
+        }
+        
+        if (remainingTime > 0) {
+            updateTimer();
+        } else if (timerElement) {
+            timerElement.textContent = 'Waktu Habis';
+            timerElement.classList.add('text-muted');
+            if(messageInput) messageInput.disabled = true;
+            if(submitButton) submitButton.disabled = true;
+        }
+    </script>
+{% endif %}
+{% endblock %}

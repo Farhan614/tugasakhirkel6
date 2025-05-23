@@ -1,0 +1,466 @@
+INFO 2025-05-16 19:38:36,622 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 19:38:36,622 views Poli Perawat: Umum
+INFO 2025-05-16 19:38:36,624 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND DATE(CONVERT_TZ(`dokter_janjitemu`.`tanggal`, UTC, Asia/Jakarta)) = 2025-05-16)
+INFO 2025-05-16 19:38:36,630 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-16 19:38:36,636 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 19:38:36,641 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-16 19:38:36,646 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-16 19:42:00,905 autoreload D:\laragon\www\Client2-Kliniks\klinik_uin\perawat\views.py changed, reloading.
+INFO 2025-05-16 19:42:03,219 autoreload Watching for file changes with StatReloader
+INFO 2025-05-16 19:48:41,807 autoreload Watching for file changes with StatReloader
+INFO 2025-05-16 19:49:10,382 views Perawat perawat1 berhasil login pada 2025-05-16 12:49:10.382900+00:00
+INFO 2025-05-16 19:49:10,563 views Now UTC: 2025-05-16 12:49:10.563856+00:00, Now WIB: 2025-05-16 19:49:10.563856+07:00, Today: 2025-05-16
+INFO 2025-05-16 19:49:10,569 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 19:49:10,569 views Poli Perawat: Umum
+INFO 2025-05-16 19:49:10,569 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 19:49:10,578 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 19:49:10,582 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}, {'id': 59, 'tanggal': datetime.datetime(2025, 5, 16, 14, 25, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 19:49:10,591 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 19:49:10,603 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-16 19:49:10,605 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}, {'id': 59, 'tanggal': datetime.datetime(2025, 5, 16, 14, 25, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 19:55:34,476 views Now UTC: 2025-05-16 12:55:34.476926+00:00, Now WIB: 2025-05-16 19:55:34.476926+07:00, Today: 2025-05-16
+INFO 2025-05-16 19:55:34,486 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 19:55:34,488 views Poli Perawat: Umum
+INFO 2025-05-16 19:55:34,491 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 19:55:34,493 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 19:55:34,502 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}, {'id': 59, 'tanggal': datetime.datetime(2025, 5, 16, 14, 25, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 19:55:34,509 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 19:55:34,514 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-16 19:55:34,519 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}, {'id': 59, 'tanggal': datetime.datetime(2025, 5, 16, 14, 25, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 20:14:38,725 views Now UTC: 2025-05-16 13:14:38.725663+00:00, Now WIB: 2025-05-16 20:14:38.725663+07:00, Today: 2025-05-16
+INFO 2025-05-16 20:14:38,733 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 20:14:38,733 views Poli Perawat: Umum
+INFO 2025-05-16 20:14:38,733 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 20:14:38,733 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 20:14:38,743 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 59, 'tanggal': datetime.datetime(2025, 5, 16, 14, 25, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 20:14:38,750 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 20:14:38,759 views Janji Temu Selesai (Sudah Diperiksa): [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 20:14:38,767 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 59, 'tanggal': datetime.datetime(2025, 5, 16, 14, 25, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 20:14:57,034 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 20:14:57,039 views Jadwal Hari Ini: []
+INFO 2025-05-16 20:14:57,039 views Jadwal Mendatang: []
+INFO 2025-05-16 20:14:57,039 views Riwayat: []
+WARNING 2025-05-16 20:14:57,274 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:04:04,593 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:04:04,593 views Jadwal Hari Ini: []
+INFO 2025-05-16 21:04:04,593 views Jadwal Mendatang: []
+INFO 2025-05-16 21:04:04,604 views Riwayat: []
+WARNING 2025-05-16 21:04:04,696 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:16:33,899 autoreload Watching for file changes with StatReloader
+INFO 2025-05-16 21:17:04,567 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:17:04,567 views Jadwal Hari Ini: [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 21:17:04,582 views Jadwal Mendatang: []
+INFO 2025-05-16 21:17:04,599 views Riwayat: []
+WARNING 2025-05-16 21:17:04,966 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:17:12,169 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:17:12,184 views Jadwal Hari Ini: [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 21:17:12,184 views Jadwal Mendatang: []
+INFO 2025-05-16 21:17:12,191 views Riwayat: []
+INFO 2025-05-16 21:17:12,268 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:17:12,274 views Jadwal Hari Ini: [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Dipanggil', 'diperiksa_perawat': True}]
+INFO 2025-05-16 21:17:12,280 views Jadwal Mendatang: []
+INFO 2025-05-16 21:17:12,283 views Riwayat: []
+WARNING 2025-05-16 21:17:12,399 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:17:33,886 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:17:33,892 views Jadwal Hari Ini: []
+INFO 2025-05-16 21:17:33,903 views Jadwal Mendatang: []
+INFO 2025-05-16 21:17:33,906 views Riwayat: [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 21:17:34,033 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:37:05,699 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-16 21:37:13,879 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:37:15,585 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:37:16,655 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:37:58,744 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:39:25,246 log Not Found: /pasien/resep/3/
+WARNING 2025-05-16 21:39:25,293 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:39:26,721 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-05-16 21:40:26,317 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:40:26,317 views Jadwal Hari Ini: []
+INFO 2025-05-16 21:40:26,317 views Jadwal Mendatang: []
+INFO 2025-05-16 21:40:26,317 views Riwayat: [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 21:40:26,384 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:40:29,217 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:40:29,217 views Jadwal Hari Ini: []
+INFO 2025-05-16 21:40:29,217 views Jadwal Mendatang: []
+INFO 2025-05-16 21:40:29,230 views Riwayat: [{'id': 58, 'tanggal': datetime.datetime(2025, 5, 16, 13, 26, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 21:40:29,296 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:41:57,833 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 60, order_id: JT-60
+INFO 2025-05-16 21:41:58,281 views Transaksi berhasil dibuat untuk JanjiTemu ID 60, token: 76b8ec88-d52d-43a5-acf8-79dd2494ddd0
+INFO 2025-05-16 21:42:57,909 views Perawat perawat1 berhasil login pada 2025-05-16 14:42:57.909022+00:00
+INFO 2025-05-16 21:42:57,931 views Now UTC: 2025-05-16 14:42:57.931853+00:00, Now WIB: 2025-05-16 21:42:57.931853+07:00, Today: 2025-05-16
+INFO 2025-05-16 21:42:57,931 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 21:42:57,931 views Poli Perawat: Umum
+INFO 2025-05-16 21:42:57,931 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 21:42:57,931 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 21:42:57,943 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 21:42:57,945 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 21:42:57,947 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-16 21:42:57,950 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 21:43:24,924 views Now UTC: 2025-05-16 14:43:24.924447+00:00, Now WIB: 2025-05-16 21:43:24.924447+07:00, Today: 2025-05-16
+INFO 2025-05-16 21:43:24,930 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 21:43:24,930 views Poli Perawat: Umum
+INFO 2025-05-16 21:43:24,930 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 21:43:24,933 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 21:43:24,936 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-16 21:43:24,943 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 21:43:24,947 views Janji Temu Selesai (Sudah Diperiksa): [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 21:43:24,949 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-16 21:44:20,015 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:44:20,019 views Jadwal Hari Ini: [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 21:44:20,021 views Jadwal Mendatang: []
+INFO 2025-05-16 21:44:20,022 views Riwayat: []
+WARNING 2025-05-16 21:44:20,083 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:44:24,000 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:44:24,003 views Jadwal Hari Ini: [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 21:44:24,004 views Jadwal Mendatang: []
+INFO 2025-05-16 21:44:24,005 views Riwayat: []
+INFO 2025-05-16 21:44:24,044 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:44:24,046 views Jadwal Hari Ini: [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Dipanggil', 'diperiksa_perawat': True}]
+INFO 2025-05-16 21:44:24,046 views Jadwal Mendatang: []
+INFO 2025-05-16 21:44:24,046 views Riwayat: []
+WARNING 2025-05-16 21:44:24,102 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 21:44:41,993 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 21:44:41,997 views Jadwal Hari Ini: []
+INFO 2025-05-16 21:44:41,999 views Jadwal Mendatang: []
+INFO 2025-05-16 21:44:42,002 views Riwayat: [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 21:44:42,079 log Not Found: /media/dokter/foto/default.jpg
+ERROR 2025-05-16 21:45:27,260 log Internal Server Error: /apoteker/resep-selesai/4/
+Traceback (most recent call last):
+  File "D:\laragon\www\Client2-Kliniks\klinik_env\lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\laragon\www\Client2-Kliniks\klinik_env\lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\laragon\www\Client2-Kliniks\klinik_env\lib\site-packages\django\contrib\auth\decorators.py", line 60, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\laragon\www\Client2-Kliniks\klinik_uin\apoteker\views.py", line 181, in detail_resep_selesai
+    pengeluaran = resep.pengeluaranobat_set.first()
+AttributeError: 'Resep' object has no attribute 'pengeluaranobat_set'
+WARNING 2025-05-16 21:47:18,104 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:47:39,295 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 21:47:43,736 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+INFO 2025-05-16 22:06:59,736 autoreload D:\laragon\www\Client2-Kliniks\klinik_uin\pasien\views.py changed, reloading.
+INFO 2025-05-16 22:07:01,050 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-16 22:07:32,472 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 22:07:33,889 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-05-16 22:09:08,913 log Not Found: /pasien/resep/4/
+INFO 2025-05-16 22:09:55,911 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:09:55,916 views Jadwal Hari Ini: []
+INFO 2025-05-16 22:09:55,917 views Jadwal Mendatang: []
+INFO 2025-05-16 22:09:55,919 views Riwayat: [{'id': 60, 'tanggal': datetime.datetime(2025, 5, 16, 16, 41, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 22:09:55,992 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:10:49,489 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:10:49,489 views Jadwal Hari Ini: []
+INFO 2025-05-16 22:10:49,489 views Jadwal Mendatang: []
+INFO 2025-05-16 22:10:49,489 views Riwayat: []
+WARNING 2025-05-16 22:10:49,564 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:11:28,690 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 61, order_id: JT-61
+INFO 2025-05-16 22:11:29,185 views Transaksi berhasil dibuat untuk JanjiTemu ID 61, token: 154887a2-d737-4644-a96d-03aa785bf062
+INFO 2025-05-16 22:12:07,691 views Perawat perawat1 berhasil login pada 2025-05-16 15:12:07.691177+00:00
+INFO 2025-05-16 22:12:07,722 views Now UTC: 2025-05-16 15:12:07.722030+00:00, Now WIB: 2025-05-16 22:12:07.722030+07:00, Today: 2025-05-16
+INFO 2025-05-16 22:12:07,725 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 22:12:07,725 views Poli Perawat: Umum
+INFO 2025-05-16 22:12:07,725 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 22:12:07,727 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 22:12:07,734 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 22:12:07,736 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 22:12:07,739 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-16 22:12:07,742 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 22:12:24,197 views Now UTC: 2025-05-16 15:12:24.197840+00:00, Now WIB: 2025-05-16 22:12:24.197840+07:00, Today: 2025-05-16
+INFO 2025-05-16 22:12:24,203 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 22:12:24,205 views Poli Perawat: Umum
+INFO 2025-05-16 22:12:24,205 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 22:12:24,206 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 22:12:24,209 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-16 22:12:24,212 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 22:12:24,215 views Janji Temu Selesai (Sudah Diperiksa): [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 22:12:24,218 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-16 22:12:41,717 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:12:41,718 views Jadwal Hari Ini: [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 22:12:41,720 views Jadwal Mendatang: []
+INFO 2025-05-16 22:12:41,724 views Riwayat: []
+WARNING 2025-05-16 22:12:41,806 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:12:46,367 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:12:46,387 views Jadwal Hari Ini: [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 22:12:46,390 views Jadwal Mendatang: []
+INFO 2025-05-16 22:12:46,392 views Riwayat: []
+INFO 2025-05-16 22:12:46,427 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:12:46,427 views Jadwal Hari Ini: [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Dipanggil', 'diperiksa_perawat': True}]
+INFO 2025-05-16 22:12:46,433 views Jadwal Mendatang: []
+INFO 2025-05-16 22:12:46,436 views Riwayat: []
+WARNING 2025-05-16 22:12:46,491 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:12:57,475 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:12:57,481 views Jadwal Hari Ini: []
+INFO 2025-05-16 22:12:57,484 views Jadwal Mendatang: []
+INFO 2025-05-16 22:12:57,487 views Riwayat: [{'id': 61, 'tanggal': datetime.datetime(2025, 5, 16, 16, 11, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 22:12:57,567 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:14:26,128 views Memulai pembayaran untuk Resep ID 5 oleh Farhan Fadlurahman
+INFO 2025-05-16 22:14:26,128 views Total biaya untuk Resep ID 5: 10000.00
+ERROR 2025-05-16 22:14:26,811 views Gagal membuat transaksi Midtrans untuk Resep ID 5: Midtrans API is returning API error. HTTP status code: `400`. API response: `{"error_messages":["transaction_details.order_id has already been taken"]}`
+Traceback (most recent call last):
+  File "D:\laragon\www\Client2-Kliniks\klinik_uin\pasien\views.py", line 424, in payment
+    transaction = snap.create_transaction(transaction_data)
+  File "D:\laragon\www\Client2-Kliniks\klinik_env\lib\site-packages\midtransclient\snap.py", line 39, in create_transaction
+    response_dict, response_object = self.http_client.request(
+  File "D:\laragon\www\Client2-Kliniks\klinik_env\lib\site-packages\midtransclient\http_client.py", line 68, in request
+    raise MidtransAPIError(
+midtransclient.error_midtrans.MidtransAPIError: Midtrans API is returning API error. HTTP status code: `400`. API response: `{"error_messages":["transaction_details.order_id has already been taken"]}`
+INFO 2025-05-16 22:25:32,081 autoreload Watching for file changes with StatReloader
+INFO 2025-05-16 22:51:08,572 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 62, order_id: JT-62
+INFO 2025-05-16 22:51:09,012 views Transaksi berhasil dibuat untuk JanjiTemu ID 62, token: 1747b1fa-65ea-4a7c-9183-6401ce5fcf08
+INFO 2025-05-16 22:52:53,703 views Perawat perawat1 berhasil login pada 2025-05-16 15:52:53.703147+00:00
+INFO 2025-05-16 22:52:53,732 views Now UTC: 2025-05-16 15:52:53.732754+00:00, Now WIB: 2025-05-16 22:52:53.732754+07:00, Today: 2025-05-16
+INFO 2025-05-16 22:52:53,741 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 22:52:53,741 views Poli Perawat: Umum
+INFO 2025-05-16 22:52:53,744 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 22:52:53,747 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 22:52:53,753 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 22:52:53,753 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 22:52:53,762 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-16 22:52:53,762 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 22:53:26,378 views Now UTC: 2025-05-16 15:53:26.378086+00:00, Now WIB: 2025-05-16 22:53:26.378086+07:00, Today: 2025-05-16
+INFO 2025-05-16 22:53:26,382 views Perawat: Perawat, Today: 2025-05-16
+INFO 2025-05-16 22:53:26,382 views Poli Perawat: Umum
+INFO 2025-05-16 22:53:26,382 views Start of Day (UTC): 2025-05-15 17:00:00+00:00, End of Day (UTC): 2025-05-16 16:59:59+00:00
+INFO 2025-05-16 22:53:26,389 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-15 17:00:00 AND 2025-05-16 16:59:59)
+INFO 2025-05-16 22:53:26,396 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-16 22:53:26,397 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-16 22:53:26,403 views Janji Temu Selesai (Sudah Diperiksa): [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-16 22:53:26,412 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-16 22:53:39,475 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:53:39,482 views Jadwal Hari Ini: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 22:53:39,486 views Jadwal Mendatang: []
+INFO 2025-05-16 22:53:39,493 views Riwayat: []
+WARNING 2025-05-16 22:53:39,628 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:53:43,011 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:53:43,011 views Jadwal Hari Ini: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-16 22:53:43,011 views Jadwal Mendatang: []
+INFO 2025-05-16 22:53:43,011 views Riwayat: []
+INFO 2025-05-16 22:53:43,074 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:53:43,079 views Jadwal Hari Ini: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Dipanggil', 'diperiksa_perawat': True}]
+INFO 2025-05-16 22:53:43,079 views Jadwal Mendatang: []
+INFO 2025-05-16 22:53:43,084 views Riwayat: []
+WARNING 2025-05-16 22:53:43,162 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:53:54,610 views Dokter: Dewi Nadila, Today: 2025-05-16
+INFO 2025-05-16 22:53:54,610 views Jadwal Hari Ini: []
+INFO 2025-05-16 22:53:54,624 views Jadwal Mendatang: []
+INFO 2025-05-16 22:53:54,627 views Riwayat: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-16 22:53:54,726 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-16 22:54:41,994 views Memulai pembayaran untuk Resep ID 6 oleh Farhan Fadlurahman
+INFO 2025-05-16 22:54:42,009 views Total biaya untuk Resep ID 6: 10000.00
+INFO 2025-05-16 22:54:42,376 views Transaksi Midtrans berhasil dibuat untuk Resep ID 6, token: 381d7bf7-3c61-4830-bcf7-77412a4d287a
+INFO 2025-05-17 12:40:02,329 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-17 12:40:17,064 log Not Found: /favicon.ico
+INFO 2025-05-17 12:42:22,834 views Perawat perawat1 berhasil login pada 2025-05-17 05:42:22.834407+00:00
+INFO 2025-05-17 12:42:28,442 views Now UTC: 2025-05-17 05:42:28.442852+00:00, Now WIB: 2025-05-17 12:42:28.442852+07:00, Today: 2025-05-17
+INFO 2025-05-17 12:42:28,462 views Perawat: Perawat, Today: 2025-05-17
+INFO 2025-05-17 12:42:28,462 views Poli Perawat: Umum
+INFO 2025-05-17 12:42:28,462 views Start of Day (UTC): 2025-05-16 17:00:00+00:00, End of Day (UTC): 2025-05-17 16:59:59+00:00
+INFO 2025-05-17 12:42:28,467 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-16 17:00:00 AND 2025-05-17 16:59:59)
+INFO 2025-05-17 12:42:28,495 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-17 12:42:28,495 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-17 12:42:28,514 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-17 12:42:28,514 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-17 12:44:16,483 views Now UTC: 2025-05-17 05:44:16.483822+00:00, Now WIB: 2025-05-17 12:44:16.483822+07:00, Today: 2025-05-17
+INFO 2025-05-17 12:44:16,485 views Perawat: Perawat, Today: 2025-05-17
+INFO 2025-05-17 12:44:16,485 views Poli Perawat: Umum
+INFO 2025-05-17 12:44:16,485 views Start of Day (UTC): 2025-05-16 17:00:00+00:00, End of Day (UTC): 2025-05-17 16:59:59+00:00
+INFO 2025-05-17 12:44:16,495 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-16 17:00:00 AND 2025-05-17 16:59:59)
+INFO 2025-05-17 12:44:16,504 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-17 12:44:16,510 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-17 12:44:16,514 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-17 12:44:16,522 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-17 12:44:42,435 views Perawat perawat1 berhasil login pada 2025-05-17 05:44:42.435606+00:00
+INFO 2025-05-17 12:44:42,476 views Now UTC: 2025-05-17 05:44:42.476394+00:00, Now WIB: 2025-05-17 12:44:42.476394+07:00, Today: 2025-05-17
+INFO 2025-05-17 12:44:42,479 views Perawat: Perawat, Today: 2025-05-17
+INFO 2025-05-17 12:44:42,479 views Poli Perawat: Umum
+INFO 2025-05-17 12:44:42,479 views Start of Day (UTC): 2025-05-16 17:00:00+00:00, End of Day (UTC): 2025-05-17 16:59:59+00:00
+INFO 2025-05-17 12:44:42,479 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-16 17:00:00 AND 2025-05-17 16:59:59)
+INFO 2025-05-17 12:44:42,494 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-17 12:44:42,494 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-17 12:44:42,508 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-17 12:44:42,514 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-17 12:47:01,600 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 63, order_id: JT-63
+INFO 2025-05-17 12:47:02,523 views Transaksi berhasil dibuat untuk JanjiTemu ID 63, token: 35c60915-cde8-4116-bdc0-8a5b8df40951
+INFO 2025-05-17 12:49:47,324 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 64, order_id: JT-64
+INFO 2025-05-17 12:49:47,689 views Transaksi berhasil dibuat untuk JanjiTemu ID 64, token: 993319fc-4661-4cef-a4c2-7119007938b4
+INFO 2025-05-17 12:50:38,208 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 65, order_id: JT-65
+INFO 2025-05-17 12:50:38,552 views Transaksi berhasil dibuat untuk JanjiTemu ID 65, token: 32bb340b-904f-4c54-ac9f-7e3f1a146e8d
+INFO 2025-05-17 12:52:51,054 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 66, order_id: JT-66
+INFO 2025-05-17 12:52:51,483 views Transaksi berhasil dibuat untuk JanjiTemu ID 66, token: 85de68e5-3ac0-41e0-a692-2c6204ed80cd
+INFO 2025-05-17 12:53:55,457 views Perawat perawat1 berhasil login pada 2025-05-17 05:53:55.457818+00:00
+INFO 2025-05-17 12:53:55,508 views Now UTC: 2025-05-17 05:53:55.508958+00:00, Now WIB: 2025-05-17 12:53:55.508958+07:00, Today: 2025-05-17
+INFO 2025-05-17 12:53:55,519 views Perawat: Perawat, Today: 2025-05-17
+INFO 2025-05-17 12:53:55,520 views Poli Perawat: Umum
+INFO 2025-05-17 12:53:55,528 views Start of Day (UTC): 2025-05-16 17:00:00+00:00, End of Day (UTC): 2025-05-17 16:59:59+00:00
+INFO 2025-05-17 12:53:55,532 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-16 17:00:00 AND 2025-05-17 16:59:59)
+INFO 2025-05-17 12:53:55,542 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-17 12:53:55,544 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-17 12:53:55,559 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-17 12:53:55,565 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-17 12:54:16,192 views Now UTC: 2025-05-17 05:54:16.192452+00:00, Now WIB: 2025-05-17 12:54:16.192452+07:00, Today: 2025-05-17
+INFO 2025-05-17 12:54:16,194 views Perawat: Perawat, Today: 2025-05-17
+INFO 2025-05-17 12:54:16,194 views Poli Perawat: Umum
+INFO 2025-05-17 12:54:16,194 views Start of Day (UTC): 2025-05-16 17:00:00+00:00, End of Day (UTC): 2025-05-17 16:59:59+00:00
+INFO 2025-05-17 12:54:16,204 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-16 17:00:00 AND 2025-05-17 16:59:59)
+INFO 2025-05-17 12:54:16,222 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-17 12:54:16,229 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-17 12:54:16,229 views Janji Temu Selesai (Sudah Diperiksa): [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-17 12:54:16,229 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-17 12:54:29,300 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 12:54:29,305 views Jadwal Hari Ini: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-17 12:54:29,311 views Jadwal Mendatang: []
+INFO 2025-05-17 12:54:29,320 views Riwayat: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-17 12:54:29,515 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-17 12:54:34,386 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 12:54:34,395 views Jadwal Hari Ini: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-17 12:54:34,397 views Jadwal Mendatang: []
+INFO 2025-05-17 12:54:34,397 views Riwayat: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+INFO 2025-05-17 12:54:34,470 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 12:54:34,472 views Jadwal Hari Ini: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Dipanggil', 'diperiksa_perawat': True}]
+INFO 2025-05-17 12:54:34,474 views Jadwal Mendatang: []
+INFO 2025-05-17 12:54:34,479 views Riwayat: [{'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-17 12:54:34,588 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-17 12:54:54,725 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 12:54:54,738 views Jadwal Hari Ini: []
+INFO 2025-05-17 12:54:54,746 views Jadwal Mendatang: []
+INFO 2025-05-17 12:54:54,750 views Riwayat: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}, {'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-17 12:54:54,887 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-17 12:55:52,783 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 12:55:52,793 views Jadwal Hari Ini: []
+INFO 2025-05-17 12:55:52,796 views Jadwal Mendatang: []
+INFO 2025-05-17 12:55:52,805 views Riwayat: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}, {'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-17 12:55:53,015 log Not Found: /media/dokter/foto/default.jpg
+WARNING 2025-05-17 12:55:56,014 log Not Found: /media/dokter/foto/default.jpg
+INFO 2025-05-17 12:56:09,955 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 12:56:09,968 views Jadwal Hari Ini: []
+INFO 2025-05-17 12:56:09,977 views Jadwal Mendatang: []
+INFO 2025-05-17 12:56:09,981 views Riwayat: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}, {'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+INFO 2025-05-17 13:27:00,904 views Memulai pembayaran untuk Resep ID 7 oleh Farhan Fadlurahman
+INFO 2025-05-17 13:27:00,912 views Total biaya untuk Resep ID 7: 20000.00
+INFO 2025-05-17 13:27:01,544 views Transaksi Midtrans berhasil dibuat untuk Resep ID 7, token: ee6cff92-aeef-4c50-b2e7-42f0f0dea92b
+INFO 2025-05-17 13:27:28,497 views Memulai pembayaran untuk Resep ID 7 oleh Farhan Fadlurahman
+WARNING 2025-05-17 13:27:28,497 views Pembayaran ditolak untuk Resep ID 7: Status Sedang Diproses
+WARNING 2025-05-17 13:27:56,275 log Not Found: /pasien/resep/7/payment_resep
+WARNING 2025-05-17 13:28:01,780 log Not Found: /pasien/resep/7/payment-resep
+WARNING 2025-05-17 13:28:09,043 log Not Found: /pasien/resep/7/payment
+INFO 2025-05-17 13:29:57,095 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 13:29:57,102 views Jadwal Hari Ini: []
+INFO 2025-05-17 13:29:57,105 views Jadwal Mendatang: []
+INFO 2025-05-17 13:29:57,105 views Riwayat: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}, {'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+INFO 2025-05-17 13:30:12,722 views Dokter: Dewi Nadila, Today: 2025-05-17
+INFO 2025-05-17 13:30:12,722 views Jadwal Hari Ini: []
+INFO 2025-05-17 13:30:12,733 views Jadwal Mendatang: []
+INFO 2025-05-17 13:30:12,738 views Riwayat: [{'id': 66, 'tanggal': datetime.datetime(2025, 5, 17, 7, 52, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}, {'id': 62, 'tanggal': datetime.datetime(2025, 5, 16, 16, 50, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-17 13:30:21,138 log Not Found: /farh
+INFO 2025-05-23 17:13:30,334 autoreload Watching for file changes with StatReloader
+INFO 2025-05-23 17:15:37,601 autoreload Watching for file changes with StatReloader
+WARNING 2025-05-23 17:15:46,300 log Not Found: /favicon.ico
+WARNING 2025-05-23 17:17:12,708 log Not Found: /dokter/
+INFO 2025-05-23 17:18:15,219 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:18:15,220 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:18:15,220 views Jadwal Mendatang: []
+INFO 2025-05-23 17:18:15,221 views Riwayat: []
+ERROR 2025-05-23 17:18:21,698 log Internal Server Error: /pasien/
+Traceback (most recent call last):
+  File "C:\xampp\htdocs\KliniksAkhir\klinik_env\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\xampp\htdocs\KliniksAkhir\klinik_env\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\xampp\htdocs\KliniksAkhir\klinik_env\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+  File "C:\xampp\htdocs\KliniksAkhir\klinik_uin\pasien\views.py", line 140, in pasien_dashboard
+    pasien = request.user.pasien
+             ^^^^^^^^^^^^^^^^^^^
+  File "C:\xampp\htdocs\KliniksAkhir\klinik_env\Lib\site-packages\django\utils\functional.py", line 268, in inner
+    return func(_wrapped, *args)
+  File "C:\xampp\htdocs\KliniksAkhir\klinik_env\Lib\site-packages\django\db\models\fields\related_descriptors.py", line 492, in __get__
+    raise self.RelatedObjectDoesNotExist(
+    ...<2 lines>...
+    )
+django.contrib.auth.models.User.pasien.RelatedObjectDoesNotExist: User has no pasien.
+WARNING 2025-05-23 17:18:53,689 log Not Found: /favicon.ico
+INFO 2025-05-23 17:19:44,926 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:19:44,927 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:19:44,928 views Jadwal Mendatang: []
+INFO 2025-05-23 17:19:44,928 views Riwayat: []
+INFO 2025-05-23 17:21:33,352 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 67, order_id: JT-67
+INFO 2025-05-23 17:21:34,689 views Transaksi berhasil dibuat untuk JanjiTemu ID 67, token: dd5514b3-ba97-4c74-86d9-16417876f6a1
+INFO 2025-05-23 17:23:04,811 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:04,813 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:04,813 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:04,814 views Riwayat: []
+INFO 2025-05-23 17:23:06,100 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:06,101 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:06,101 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:06,103 views Riwayat: []
+INFO 2025-05-23 17:23:07,141 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:07,142 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:07,142 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:07,143 views Riwayat: []
+INFO 2025-05-23 17:23:07,835 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:07,835 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:07,837 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:07,838 views Riwayat: []
+INFO 2025-05-23 17:23:08,460 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:08,462 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:08,463 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:08,463 views Riwayat: []
+INFO 2025-05-23 17:23:23,759 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:23,759 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:23,760 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:23,761 views Riwayat: []
+INFO 2025-05-23 17:23:24,561 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:24,562 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:24,563 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:24,563 views Riwayat: []
+INFO 2025-05-23 17:23:34,530 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:34,530 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:34,532 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:34,533 views Riwayat: []
+INFO 2025-05-23 17:23:36,549 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:36,549 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:36,550 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:36,550 views Riwayat: []
+INFO 2025-05-23 17:23:38,391 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:23:38,392 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:23:38,393 views Jadwal Mendatang: []
+INFO 2025-05-23 17:23:38,394 views Riwayat: []
+WARNING 2025-05-23 17:24:06,836 log Not Found: /favicon.ico
+INFO 2025-05-23 17:25:00,513 views Perawat perawat1 berhasil login pada 2025-05-23 10:25:00.513757+00:00
+INFO 2025-05-23 17:25:00,523 views Now UTC: 2025-05-23 10:25:00.523238+00:00, Now WIB: 2025-05-23 17:25:00.523238+07:00, Today: 2025-05-23
+INFO 2025-05-23 17:25:00,524 views Perawat: Perawat, Today: 2025-05-23
+INFO 2025-05-23 17:25:00,524 views Poli Perawat: Umum
+INFO 2025-05-23 17:25:00,524 views Start of Day (UTC): 2025-05-22 17:00:00+00:00, End of Day (UTC): 2025-05-23 16:59:59+00:00
+INFO 2025-05-23 17:25:00,525 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-22 17:00:00 AND 2025-05-23 16:59:59)
+INFO 2025-05-23 17:25:00,526 views Janji Temu Hari Ini (Belum Diperiksa): [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-23 17:25:00,527 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-23 17:25:00,528 views Janji Temu Selesai (Sudah Diperiksa): []
+INFO 2025-05-23 17:25:00,529 views Semua Janji Temu (Tanpa Filter Poli): [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': False, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-23 17:25:31,234 views Now UTC: 2025-05-23 10:25:31.234464+00:00, Now WIB: 2025-05-23 17:25:31.234464+07:00, Today: 2025-05-23
+INFO 2025-05-23 17:25:31,236 views Perawat: Perawat, Today: 2025-05-23
+INFO 2025-05-23 17:25:31,236 views Poli Perawat: Umum
+INFO 2025-05-23 17:25:31,236 views Start of Day (UTC): 2025-05-22 17:00:00+00:00, End of Day (UTC): 2025-05-23 16:59:59+00:00
+INFO 2025-05-23 17:25:31,237 views Janji Temu Hari Ini (Belum Diperiksa) - Query Raw: SELECT `dokter_janjitemu`.`id`, `dokter_janjitemu`.`pasien_id`, `dokter_janjitemu`.`dokter_id`, `dokter_janjitemu`.`tanggal`, `dokter_janjitemu`.`keluhan_utama`, `dokter_janjitemu`.`status`, `dokter_janjitemu`.`status_pembayaran`, `dokter_janjitemu`.`biaya_konsultasi`, `dokter_janjitemu`.`transaction_id`, `dokter_janjitemu`.`kode_antrian`, `dokter_janjitemu`.`diperiksa_perawat` FROM `dokter_janjitemu` INNER JOIN `dokter_dokter` ON (`dokter_janjitemu`.`dokter_id` = `dokter_dokter`.`id`) WHERE (`dokter_janjitemu`.`diperiksa_perawat` = False AND `dokter_dokter`.`poli_id` = 2 AND `dokter_janjitemu`.`status` IN (Menunggu, Dipanggil) AND `dokter_janjitemu`.`tanggal` BETWEEN 2025-05-22 17:00:00 AND 2025-05-23 16:59:59)
+INFO 2025-05-23 17:25:31,238 views Janji Temu Hari Ini (Belum Diperiksa): []
+INFO 2025-05-23 17:25:31,238 views Janji Temu Lain (Belum Diperiksa, Tanggal Lain): []
+INFO 2025-05-23 17:25:31,239 views Janji Temu Selesai (Sudah Diperiksa): [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True, 'dokter__poli__nama': 'Umum', 'pasien__nama': 'Farhan Fadlurahman'}]
+INFO 2025-05-23 17:25:31,240 views Semua Janji Temu (Tanpa Filter Poli): []
+INFO 2025-05-23 17:25:39,602 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:25:39,604 views Jadwal Hari Ini: [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-23 17:25:39,605 views Jadwal Mendatang: []
+INFO 2025-05-23 17:25:39,606 views Riwayat: []
+INFO 2025-05-23 17:25:42,675 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:25:42,676 views Jadwal Hari Ini: [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Menunggu', 'diperiksa_perawat': True}]
+INFO 2025-05-23 17:25:42,677 views Jadwal Mendatang: []
+INFO 2025-05-23 17:25:42,677 views Riwayat: []
+INFO 2025-05-23 17:25:42,691 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:25:42,692 views Jadwal Hari Ini: [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Dipanggil', 'diperiksa_perawat': True}]
+INFO 2025-05-23 17:25:42,693 views Jadwal Mendatang: []
+INFO 2025-05-23 17:25:42,694 views Riwayat: []
+INFO 2025-05-23 17:25:57,640 views Dokter: Dewi Nadila, Today: 2025-05-23
+INFO 2025-05-23 17:25:57,640 views Jadwal Hari Ini: []
+INFO 2025-05-23 17:25:57,641 views Jadwal Mendatang: []
+INFO 2025-05-23 17:25:57,641 views Riwayat: [{'id': 67, 'tanggal': datetime.datetime(2025, 5, 23, 11, 10, tzinfo=datetime.timezone.utc), 'status': 'Selesai'}]
+WARNING 2025-05-23 17:26:26,165 log Not Found: /favicon.ico
+INFO 2025-05-23 17:27:39,558 views Mencoba membuat transaksi Midtrans untuk JanjiTemu ID 68, order_id: JT-68
+INFO 2025-05-23 17:27:40,032 views Transaksi berhasil dibuat untuk JanjiTemu ID 68, token: 744a52a1-46c3-4cec-9d94-466e3f09c458

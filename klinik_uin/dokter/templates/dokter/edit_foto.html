@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Foto Profil - Dr. {{ dokter.nama }}{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="mb-0 text-success"><i class="bi bi-camera me-2"></i>Edit Foto Profil</h4>
+                <a href="{% url 'dokter:dashboard_dokter' %}" class="btn btn-sm btn-outline-success">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali ke Dashboard
+                </a>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-success bg-opacity-10 py-3 border-bottom border-success border-opacity-25">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-badge text-success me-3" style="font-size: 1.5rem;"></i>
+                        <h5 class="card-title mb-0">Dr. {{ dokter.nama }}</h5>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <div class="text-center">
+                                <h6 class="text-success mb-3">Foto Saat Ini</h6>
+                                <div class="photo-frame bg-light p-2 rounded-3 d-inline-block mb-2 border border-success border-opacity-25">
+                                    {% if dokter.foto %}
+                                        <img src="{{ dokter.foto.url }}" alt="Foto Dokter {{ dokter.nama }}" 
+                                             class="rounded-circle img-thumbnail shadow-sm" 
+                                             style="width: 180px; height: 180px; object-fit: cover;">
+                                    {% else %}
+                                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center shadow-sm" 
+                                             style="width: 180px; height: 180px; border: 1px dashed #28a745;">
+                                            <i class="bi bi-person text-success" style="font-size: 3rem;"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="mb-4">
+                                    <label for="foto" class="form-label fw-bold text-success">
+                                        <i class="bi bi-image me-1"></i>Pilih Foto Baru
+                                    </label>
+                                    <div class="input-group mb-2">
+                                        <input type="file" name="foto" id="foto" 
+                                               class="form-control border-success border-opacity-25 {% if form.foto.errors %}is-invalid{% endif %}" 
+                                               accept="image/jpeg,image/png,image/gif" required>
+                                        <label class="input-group-text bg-success bg-opacity-10 border-success border-opacity-25" for="foto">
+                                            <i class="bi bi-upload"></i>
+                                        </label>
+                                    </div>
+                                    {% if form.foto.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.foto.errors %}
+                                                {{ error }}
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <small class="form-text text-muted">
+                                        <i class="bi bi-info-circle me-1"></i>Format: JPG, PNG, GIF. Maks. 2MB
+                                    </small>
+                                </div>
+
+                                <div class="mb-4 text-center" id="preview-container" style="display: none;">
+                                    <h6 class="text-success mb-3">Pratinjau Foto Baru</h6>
+                                    <div class="photo-frame bg-light p-2 rounded-3 d-inline-block mb-2 border border-success border-opacity-25">
+                                        <img id="preview-image" src="#" alt="Pratinjau Foto Baru" 
+                                             class="rounded-circle img-thumbnail shadow-sm" 
+                                             style="width: 180px; height: 180px; object-fit: cover;">
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-2 pt-3 mt-auto">
+                                    <button type="submit" class="btn btn-success w-100">
+                                        <i class="bi bi-cloud-arrow-up me-1"></i> Unggah Foto
+                                    </button>
+                                    <a href="{% url 'dokter:dashboard_dokter' %}" class="btn btn-outline-secondary w-100">
+                                        <i class="bi bi-x-circle me-1"></i> Batal
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+
+        </div> <!-- end col -->
+    </div> <!-- end row -->
+</div> <!-- end container -->
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('foto');
+        const previewContainer = document.getElementById('preview-container');
+        const previewImage = document.getElementById('preview-image');
+
+        if (fileInput) {
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImage.src = e.target.result;
+                        previewContainer.style.display = 'block';
+                        
+                        // Animate scroll to preview if needed
+                        setTimeout(() => {
+                            previewContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }, 100);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewImage.src = '#';
+                    previewContainer.style.display = 'none';
+                    if(file) {
+                        alert('Silakan pilih file gambar (JPG, PNG, GIF).');
+                        fileInput.value = '';
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock scripts %}

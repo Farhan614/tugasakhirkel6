@@ -1,0 +1,214 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+     flex: 1;
+}
+
+:root {
+    --primary-green: #2E8B57; 
+    --light-green: #E8F5E9;
+    --dark-green: #1B5E20;
+    --hover-green: #3AA76D;
+    --green-trans: rgba(46, 139, 87, 0.1);
+}
+
+.navbar-modern {
+    background-color: #ffffff;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    padding: 0.7rem 1rem;
+}
+
+.navbar-modern .navbar-brand {
+    font-weight: 600;
+    color: var(--primary-green);
+    padding: 0.5rem 0;
+}
+
+.navbar-modern .navbar-brand img {
+    filter: brightness(1.05);
+    transition: transform 0.3s ease;
+}
+
+.navbar-modern .navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.navbar-modern .nav-link {
+    color: #4a4a4a;
+    font-weight: 500;
+    padding: 0.7rem 1rem;
+    margin: 0 0.1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.navbar-modern .nav-link:hover {
+    color: var(--primary-green);
+    background-color: var(--green-trans);
+}
+
+.navbar-modern .nav-link.active {
+    color: var(--primary-green);
+    border-bottom: 2px solid var(--primary-green);
+}
+
+.navbar-modern .dropdown-menu {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    margin-top: 0.7rem;
+    border-top: 3px solid var(--primary-green);
+}
+
+.navbar-modern .dropdown-item {
+    padding: 0.7rem 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.navbar-modern .dropdown-item:hover {
+    background-color: var(--light-green);
+    color: var(--primary-green);
+    transform: translateX(5px);
+}
+
+.btn-appointment {
+    background-color: var(--primary-green);
+    color: white;
+    border-radius: 50px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-green);
+}
+
+.btn-appointment:hover {
+    background-color: var(--hover-green);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 139, 87, 0.2);
+}
+
+.time-badge {
+    background-color: var(--light-green);
+    color:#ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(46, 139, 87, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (max-width: 991.98px) {
+    .navbar-modern .nav-link {
+        padding: 0.8rem 0.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    .time-badge {
+        margin: 1rem 0;
+    }
+    
+    .navbar-collapse {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .btn-appointment {
+        margin: 1rem 0;
+        display: block;
+        text-align: center;
+    }
+}
+
+.section-padding {
+    padding: 4rem 1rem;
+}
+
+.hero-section {
+    padding: 6rem 1rem;
+    background-color: #eef2f6; 
+    text-align: center;
+}
+.hero-section h1 {
+    font-weight: 700; 
+}
+.hero-section .lead {
+    color: #555;
+    margin-bottom: 2rem;
+}
+.hero-section img {
+     max-width: 100%;
+     height: auto;
+     margin-top: 2rem;
+     max-height: 350px; 
+}
+
+#fitur {
+    background-color: #ffffff;
+}
+.feature-icon {
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    line-height: 60px; 
+    text-align: center;
+    border-radius: 50%;
+    background-color: var(--green-trans); 
+    color: var(--primary-green); 
+    font-size: 2rem; 
+    margin-bottom: 1rem;
+}
+#fitur h5 {
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+#tentang.bg-light {
+    background-color: var(--light-green) !important; 
+}
+
+#kontak {
+    background-color: #ffffff; 
+}
+#kontak .bi { 
+     font-size: 2.5rem; 
+     color: var(--primary-green); 
+     margin-bottom: 1rem;
+}
+#kontak h5 {
+    margin-bottom: 0.5rem;
+}
+
+footer.bg-dark {
+     background-color: var(--dark-green) !important; 
+     color: rgba(255, 255, 255, 0.7);
+}
+footer.bg-dark a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5); 
+}
+footer.bg-dark a:hover {
+    text-decoration: underline;
+    color: rgba(255, 255, 255, 0.75); 
+}
